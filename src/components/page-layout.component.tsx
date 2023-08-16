@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { NavLink as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) => ({
   logo: {
@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   link: {
     textDecoration: 'none',
     color: theme.palette.getContrastText(theme.palette.background.paper),
+    '&.active': {
+      color: theme.palette.primary.light,
+    },
   },
   main: {
     flex: 1,
