@@ -62,12 +62,10 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
             <Box sx={{ flexBasis: 400, marginLeft: 'auto !important' }}>
               <Input color="primary" placeholder="Search" fullWidth />
             </Box>
-            {/* TODO add validation for showing the Profile Page or Sign-in Page */}
-            <MuiLink component={RouterLink} to="/sign-in" className={classes.link}>
-              <IconButton>
-                <PersonIcon />
-              </IconButton>
-            </MuiLink>
+
+            <IconButton>
+              <PersonIcon />
+            </IconButton>
           </Stack>
         </Toolbar>
       </AppBar>

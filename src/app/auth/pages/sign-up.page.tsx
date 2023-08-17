@@ -2,14 +2,32 @@ import { Link as MuiLink } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { makeStyles } from '@mui/styles';
 import * as React from 'react';
 import { NavLink as RouterLink } from 'react-router-dom';
 
-export default function SignUp() {
+import PageLayout from 'components/page-layout.component';
+
+const useStyles = makeStyles(() => ({
+  parent: {
+    display: 'flex',
+    height: '100%',
+    alignItems: 'center',
+  },
+  form: {
+    margin: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+}));
+
+const SignUp = () => {
+  const classes = useStyles();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -21,16 +39,8 @@ export default function SignUp() {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
+    <Container component="main" maxWidth="xs" className={classes.parent}>
+      <Box className={classes.form}>
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
@@ -73,8 +83,9 @@ export default function SignUp() {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <MuiLink component={RouterLink} to="/sign-in">
+              <MuiLink component={RouterLink} to="/auth/sign-in">
                 {'Already have an account? Sign in'}
+                {/* <RouterLink to="/auth/sign-in">{'Already have an account? Sign in'}</RouterLink> */}
               </MuiLink>
             </Grid>
           </Grid>
@@ -82,4 +93,6 @@ export default function SignUp() {
       </Box>
     </Container>
   );
-}
+};
+
+export default SignUp;
