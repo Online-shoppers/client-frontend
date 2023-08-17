@@ -1,0 +1,9 @@
+{
+  "title": "Yummy beer",
+  "navigation": {
+    "Beer": "Beer",
+    "Snacks": "Snacks",
+    "Accessories": "Accessories"
+  },
+  "Search": "Search"
+}

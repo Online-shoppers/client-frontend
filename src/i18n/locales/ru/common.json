@@ -1,0 +1,9 @@
+{
+  "title": "Yummy beer",
+  "navigation": {
+    "Beer": "Пиво",
+    "Snacks": "Снеки",
+    "Accessories": "Аксессуары"
+  },
+  "Search": "Искать"
+}
