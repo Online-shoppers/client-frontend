@@ -17,6 +17,11 @@ import { useTranslation } from 'react-i18next';
 import { NavLink as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) => ({
+  main: {
+    flex: 1,
+    marginTop: theme.spacing(5),
+  },
+
   logo: {
     color: theme.palette.primary.main,
   },
@@ -27,9 +32,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     '&.active': {
       color: theme.palette.primary.light,
     },
-  },
-  main: {
-    flex: 1,
   },
 }));
 
