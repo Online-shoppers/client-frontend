@@ -1,7 +1,9 @@
 import { Button, Link, Stack } from '@mui/material';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import MuiLink from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
+import { Link as RouterLink } from 'react-router-dom';
 
 import NumericStepper from 'components/numeric-stepper';
 
@@ -54,6 +56,9 @@ const IdPage = () => {
               <Button variant="contained">Add to cart</Button>
             </Box>
           </Stack>
+          <MuiLink component={RouterLink} to="../">
+            List
+          </MuiLink>
         </Box>
       </Stack>
     </Container>
