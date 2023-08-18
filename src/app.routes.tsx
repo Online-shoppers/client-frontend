@@ -1,25 +1,24 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import PageLayout from 'components/page-layout.component';
+import AccessoryRoutes from 'app/accessory';
+import BeerRoutes from 'app/beer';
+import SnackRoutes from 'app/snack';
 
 const AuthRoutes = React.lazy(() => import('app/auth'));
-
-interface PublicRouteProps {
-  element: React.ReactNode;
-}
-
-const PublicRoute: React.FC<PublicRouteProps> = ({ element }) => (
-  <Suspense fallback={<div />}>{element}</Suspense>
-);
 
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<PublicRoute element={<PageLayout>hello</PageLayout>} />} />
       <Route path="/auth/*" element={<AuthRoutes />} />
 
-      <Route path="*" element={<Navigate to="/" />} />
+      <Route path="/beer/*" element={<BeerRoutes />} />
+      <Route path="/snacks/*" element={<SnackRoutes />} />
+      <Route path="/accessories/*" element={<AccessoryRoutes />} />
+
+      <Route path="/" element={<Navigate to="/beer" replace />} />
+
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 };

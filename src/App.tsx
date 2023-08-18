@@ -1,6 +1,5 @@
 import { CssBaseline, GlobalStyles } from '@mui/material';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
-import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import { theme } from 'theme';
