@@ -13,7 +13,7 @@ const CartProduct = () => {
         />
       </Box>
       <Box alignSelf="baseline">
-        <Stack gap={theme => theme.spacing(1)}>
+        <Stack>
           <Typography variant="h6" component="h4" margin={0}>
             Beer name
           </Typography>

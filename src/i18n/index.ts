@@ -3,8 +3,14 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import Backend from 'i18next-http-backend';
 import { initReactI18next } from 'react-i18next';
 
+import cartEn from './locales/en/cart.json';
 import commonEn from './locales/en/common.json';
+import orderEn from './locales/en/order.json';
+import reviewEn from './locales/en/review.json';
+import cartRu from './locales/ru/cart.json';
 import commonRu from './locales/ru/common.json';
+import orderRu from './locales/ru/order.json';
+import reviewRu from './locales/ru/review.json';
 
 i18n
   .use(Backend)
@@ -23,9 +29,15 @@ i18n
     resources: {
       en: {
         common: commonEn,
+        order: orderEn,
+        cart: cartEn,
+        review: reviewEn,
       },
       ru: {
         common: commonRu,
+        order: orderRu,
+        cart: cartRu,
+        review: reviewRu,
       },
     },
     detection: {

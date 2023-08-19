@@ -1,10 +1,8 @@
-import { Stack, Typography } from '@mui/material';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
+import { Button, Container, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-import CartProduct from '../components/cart-product.component';
-import Checkout from '../components/checkout.component';
+import OrderForm from '../components/create-order.form';
+import OrderProduct from '../components/order-product.component';
 
 const MOCK_CART_PRODUCTS = [
   {
@@ -56,28 +54,28 @@ const MOCK_CART_PRODUCTS = [
   },
 ];
 
-const CartPage = () => {
-  const { t } = useTranslation('cart');
+const CreateOrderPage = () => {
+  const { t } = useTranslation('order');
 
   return (
     <Container>
-      <Stack gap={theme => theme.spacing(3)}>
-        <Typography component="h1" variant="h5">
-          {t('Your-cart')}
-        </Typography>
-        <Stack display="flex" direction="row" gap={theme => theme.spacing(5)}>
-          <Stack flex={5} gap={theme => theme.spacing(1)}>
+      <Stack display="flex" direction="row" gap={theme => theme.spacing(5)}>
+        <Stack flex={1} gap={theme => theme.spacing(3)}>
+          <Typography variant="h5">{t('Details')}:</Typography>
+          <OrderForm />
+          <Button variant="contained">{t('Buy')}</Button>
+        </Stack>
+        <Stack flex={1} gap={theme => theme.spacing(3)}>
+          <Typography variant="h5">{t('Order')}:</Typography>
+          <Stack gap={theme => theme.spacing(2)}>
             {MOCK_CART_PRODUCTS.map((product, idx) => (
-              <CartProduct key={idx} />
+              <OrderProduct key={idx} />
             ))}
           </Stack>
-          <Box flex={2}>
-            <Checkout />
-          </Box>
         </Stack>
       </Stack>
     </Container>
   );
 };
 
-export default CartPage;
+export default CreateOrderPage;
