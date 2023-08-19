@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import AccessoryRoutes from 'app/accessory';
 import BeerRoutes from 'app/beer';
 import CartRoutes from 'app/cart';
+import OrderRoutes from 'app/order';
 import SnackRoutes from 'app/snack';
 
 const AuthRoutes = React.lazy(() => import('app/auth'));
@@ -18,6 +19,7 @@ const AppRoutes = () => {
       <Route path="/accessories/*" element={<AccessoryRoutes />} />
 
       <Route path="/cart/*" element={<CartRoutes />} />
+      <Route path="/order/*" element={<OrderRoutes />} />
 
       <Route path="/" element={<Navigate to="/beer" replace />} />
 
