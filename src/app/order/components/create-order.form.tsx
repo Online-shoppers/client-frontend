@@ -1,13 +1,8 @@
 import { Stack, TextField } from '@mui/material';
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const OrderForm = () => {
   const { t, i18n } = useTranslation('order');
-
-  useEffect(() => {
-    i18n.changeLanguage('ru');
-  });
 
   return (
     <form>
