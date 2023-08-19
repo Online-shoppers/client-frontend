@@ -48,7 +48,7 @@ const IdPage = () => {
               </Link>
             </Typography>
             <Box display="flex">
-              <NumericStepper />
+              <NumericStepper size="large" />
             </Box>
             <Box display="flex" marginTop={theme => theme.spacing(1)}>
               <Button variant="contained">Add to cart</Button>

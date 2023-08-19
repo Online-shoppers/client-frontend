@@ -1,13 +1,14 @@
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { Button, Grid, Typography } from '@mui/material';
+import { Button, Grid, IconButton, Typography } from '@mui/material';
 import React, { useState } from 'react';
 
 interface NumericStepperProps {
-  variant?: 'text' | 'contained' | 'outlined';
+  color?: 'primary' | 'secondary' | 'default';
+  size?: 'small' | 'medium' | 'large';
 }
 
-const NumericStepper: React.FC<NumericStepperProps> = ({ variant }) => {
+const NumericStepper: React.FC<NumericStepperProps> = ({ color = 'default', size = 'medium' }) => {
   const [count, setCount] = useState(0);
 
   const increase = () => {
@@ -27,17 +28,17 @@ const NumericStepper: React.FC<NumericStepperProps> = ({ variant }) => {
       width="auto"
     >
       <Grid item>
-        <Button variant={variant} size="small" onClick={decrease}>
+        <IconButton color={color} size={size} onClick={decrease}>
           <RemoveIcon />
-        </Button>
+        </IconButton>
       </Grid>
       <Grid item display="flex" justifyContent="center">
         <Typography variant="button">{count}</Typography>
       </Grid>
       <Grid item>
-        <Button variant={variant} size="small" onClick={increase}>
+        <IconButton color={color} size={size} onClick={increase}>
           <AddIcon />
-        </Button>
+        </IconButton>
       </Grid>
     </Grid>
   );

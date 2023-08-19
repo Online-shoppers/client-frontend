@@ -20,7 +20,7 @@ const CartProduct = () => {
           <Typography margin={0}>$100</Typography>
 
           <Box display="flex" justifyContent="flex-start">
-            <NumericStepper variant="outlined" />
+            <NumericStepper size="small" />
           </Box>
         </Stack>
       </Box>
