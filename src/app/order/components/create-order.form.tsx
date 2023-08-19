@@ -2,7 +2,7 @@ import { Stack, TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 const OrderForm = () => {
-  const { t, i18n } = useTranslation('order');
+  const { t } = useTranslation('order');
 
   return (
     <form>
