@@ -8,9 +8,7 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
-    <Suspense fallback={<div>Default suspense</div>}>
-      <App />
-    </Suspense>
+    <App />
   </React.StrictMode>,
 );
 

@@ -1,6 +1,9 @@
 import { CssBaseline, GlobalStyles } from '@mui/material';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
+import { Suspense } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+
+import LoadingIndicator from 'components/loading-indicator.component';
 
 import { theme } from 'theme';
 
@@ -26,9 +29,11 @@ function App() {
             }}
           />
           <CssBaseline />
-          <Router>
-            <AppRoutes />
-          </Router>
+          <Suspense fallback={<LoadingIndicator />}>
+            <Router>
+              <AppRoutes />
+            </Router>
+          </Suspense>
         </ThemeProvider>
       </StyledEngineProvider>
     </ErrorBoundary>
