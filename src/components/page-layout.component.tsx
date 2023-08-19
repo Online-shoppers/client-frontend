@@ -11,9 +11,11 @@ import {
   Typography,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink as RouterLink } from 'react-router-dom';
+
+import UserMenu from './user-menu.component';
 
 const useStyles = makeStyles((theme: Theme) => ({
   main: {
@@ -39,9 +41,17 @@ interface PageLayoutProps {
 }
 
 const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
-  const { t } = useTranslation('common');
+  const ref = useRef<HTMLButtonElement>(null);
+
+  const { t } = useTranslation();
 
   const classes = useStyles();
+
+  const [preferencesOpen, setPreferencesOpen] = useState(false);
+
+  const togglePreferences = () => {
+    setPreferencesOpen(current => !current);
+  };
 
   return (
     <React.Fragment>
@@ -68,9 +78,11 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
               <Input color="primary" placeholder={t('Search')} fullWidth />
             </Box>
 
-            <IconButton>
+            <IconButton ref={ref} onClick={togglePreferences}>
               <PersonIcon />
             </IconButton>
+
+            <UserMenu anchorEl={ref.current} open={preferencesOpen} />
           </Stack>
         </Toolbar>
       </AppBar>
