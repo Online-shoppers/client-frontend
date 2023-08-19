@@ -11,7 +11,6 @@ import {
   Typography,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-// import i18n from 'i18n';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink as RouterLink } from 'react-router-dom';

@@ -1,5 +1,6 @@
 import 'react-i18next';
 
+import auth from './locales/en/auth';
 import cart from './locales/en/cart';
 import common from './locales/en/common.json';
 import order from './locales/en/order';
@@ -11,5 +12,6 @@ declare module 'react-i18next' {
     common: typeof common;
     order: typeof order;
     review: typeof review;
+    auth: typeof auth;
   }
 }

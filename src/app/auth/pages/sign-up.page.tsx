@@ -2,14 +2,11 @@ import { Link as MuiLink } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
-import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 import { NavLink as RouterLink } from 'react-router-dom';
-
-import PageLayout from 'components/page-layout.component';
 
 const useStyles = makeStyles(() => ({
   parent: {
@@ -26,69 +23,39 @@ const useStyles = makeStyles(() => ({
 }));
 
 const SignUp = () => {
-  const classes = useStyles();
+  const { t } = useTranslation('auth');
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      fullName: data.get('fullName'),
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+  const classes = useStyles();
 
   return (
     <Container component="main" maxWidth="xs" className={classes.parent}>
-      <Box className={classes.form}>
+      <Box className={classes.form} gap={3}>
         <Typography component="h1" variant="h5">
-          Sign up
+          {t('Sign-up')}
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                autoComplete="given-name"
-                name="fullName"
-                required
-                fullWidth
-                id="fullName"
-                label="Full Name"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
-              />
-            </Grid>
-          </Grid>
-          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-            Sign Up
+        <Box component="form">
+          <TextField margin="dense" name="firstName" required fullWidth label={t('First-name')} />
+          <TextField margin="dense" name="lastName" required fullWidth label={t('Last-name')} />
+          <TextField margin="dense" name="email" required fullWidth id="email" label={t('Email')} />
+          <TextField
+            margin="dense"
+            name="password"
+            required
+            fullWidth
+            label={t('Password')}
+            type="password"
+          />
+        </Box>
+        <Box display="flex" flexDirection="column" width="100%" gap={1}>
+          <Button type="submit" fullWidth variant="contained">
+            {t('Sign-up')}
           </Button>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <MuiLink component={RouterLink} to="/auth/sign-in">
-                {'Already have an account? Sign in'}
-                {/* <RouterLink to="/auth/sign-in">{'Already have an account? Sign in'}</RouterLink> */}
-              </MuiLink>
-            </Grid>
-          </Grid>
+          <Typography variant="subtitle1">
+            {t('Already-have-an-account?')}{' '}
+            <MuiLink component={RouterLink} to="/auth/sign-in">
+              {t('Do-sign-in')}
+            </MuiLink>
+          </Typography>
         </Box>
       </Box>
     </Container>
