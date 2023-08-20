@@ -3,7 +3,15 @@
   "navigation": {
     "Beer": "Beer",
     "Snacks": "Snacks",
-    "Accessories": "Accessories"
+    "Accessories": "Accessories",
+    "Cart": "Cart",
+    "Order-history": "Order history"
+  },
+  "languages": {
+    "English": "English",
+    "Eng": "Eng",
+    "Russian": "Russian",
+    "Ru": "Rus"
   },
   "Search": "Search"
 }

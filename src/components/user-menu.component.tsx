@@ -15,14 +15,20 @@ import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles(() => ({
   parent: {
+    position: 'relative',
     padding: '10px',
+
+    '&:before': {
+      content: '""',
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 'calc(100% + 15px)',
+      height: 'calc(100% + 15px)',
+    },
   },
 }));
-
-const links = [
-  { text: 'Cart', href: '/cart' },
-  { text: 'Order history', href: '/order' },
-];
 
 interface UserMenuProps {
   open: boolean;
@@ -30,10 +36,15 @@ interface UserMenuProps {
 }
 
 const UserMenu: React.FC<UserMenuProps> = ({ open, anchorEl }) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
   const classes = useStyles();
+
+  const links = [
+    { text: t('navigation.Cart'), href: '/cart' },
+    { text: t('navigation.Order-history'), href: '/order' },
+  ];
 
   const handleChangeLanguage = (_: unknown, value: string) => {
     i18n.changeLanguage(value);
@@ -57,10 +68,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ open, anchorEl }) => {
           value={i18n.language}
           exclusive
           onChange={handleChangeLanguage}
-          aria-label="Platform"
         >
-          <ToggleButton value="en">English</ToggleButton>
-          <ToggleButton value="ru">Russian</ToggleButton>
+          <ToggleButton value="en">{t('languages.English')}</ToggleButton>
+          <ToggleButton value="ru">{t('languages.Russian')}</ToggleButton>
         </ToggleButtonGroup>
       </Paper>
     </Popper>

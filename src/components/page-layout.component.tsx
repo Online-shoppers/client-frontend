@@ -47,10 +47,14 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
 
   const classes = useStyles();
 
-  const [preferencesOpen, setPreferencesOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const togglePreferences = () => {
-    setPreferencesOpen(current => !current);
+  const toggleMenu = () => {
+    setMenuOpen(current => !current);
+  };
+
+  const closeMenu = () => {
+    setMenuOpen(false);
   };
 
   return (
@@ -78,11 +82,10 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
               <Input color="primary" placeholder={t('Search')} fullWidth />
             </Box>
 
-            <IconButton ref={ref} onClick={togglePreferences}>
+            <IconButton ref={ref} onClick={toggleMenu} onMouseLeave={closeMenu}>
               <PersonIcon />
+              <UserMenu anchorEl={ref.current} open={menuOpen} />
             </IconButton>
-
-            <UserMenu anchorEl={ref.current} open={preferencesOpen} />
           </Stack>
         </Toolbar>
       </AppBar>
