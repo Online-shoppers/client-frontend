@@ -3,7 +3,15 @@
   "navigation": {
     "Beer": "Пиво",
     "Snacks": "Снеки",
-    "Accessories": "Аксессуары"
+    "Accessories": "Аксессуары",
+    "Cart": "Корзина",
+    "Order-history": "История заказов"
+  },
+  "languages": {
+    "English": "Английский",
+    "Eng": "Анг",
+    "Russian": "Русский",
+    "Rus": "Рус"
   },
   "Search": "Искать"
 }
