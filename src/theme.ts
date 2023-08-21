@@ -10,4 +10,14 @@ export const theme = createTheme({
       dark: yellow[800],
     },
   },
+  components: {
+    MuiTypography: {
+      styleOverrides: {
+        root: {},
+        h6: {
+          textDecoration: 'none',
+        },
+      },
+    },
+  },
 });

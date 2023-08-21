@@ -62,7 +62,13 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
       <AppBar position="static">
         <Toolbar variant="dense">
           <Stack spacing={5} direction="row" width="100%" alignItems="center">
-            <Typography variant="h6" color="inherit" className={classes.logo}>
+            <Typography
+              variant="h6"
+              color="inherit"
+              component={RouterLink}
+              to="/"
+              className={classes.logo}
+            >
               {t('title')}
             </Typography>
 
