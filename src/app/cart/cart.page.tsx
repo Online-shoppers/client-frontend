@@ -3,8 +3,8 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { useTranslation } from 'react-i18next';
 
-import CartProduct from '../components/cart-product.component';
-import Checkout from '../components/checkout.component';
+import CartProduct from './components/cart-product.component';
+import Checkout from './components/checkout.component';
 
 const MOCK_CART_PRODUCTS = [
   {

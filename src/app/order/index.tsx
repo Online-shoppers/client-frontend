@@ -3,7 +3,7 @@ import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 import PageLayout from 'components/page-layout.component';
 
-const CreateOrderPage = React.lazy(() => import('./pages/create-order.page'));
+const CreateOrderPage = React.lazy(() => import('./create-order.page'));
 
 const OrderRoutes = () => {
   return (

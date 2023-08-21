@@ -3,7 +3,7 @@ import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 import PageLayout from 'components/page-layout.component';
 
-const CartPage = React.lazy(() => import('./pages/cart.page'));
+const CartPage = React.lazy(() => import('./cart.page'));
 
 const CartRoutes = () => {
   return (

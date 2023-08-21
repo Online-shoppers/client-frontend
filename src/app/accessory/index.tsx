@@ -3,8 +3,8 @@ import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 import PageLayout from 'components/page-layout.component';
 
-const IdPage = React.lazy(() => import('./pages/id.page'));
-const ListPage = React.lazy(() => import('./pages/list.page'));
+const IdPage = React.lazy(() => import('./id.page'));
+const ListPage = React.lazy(() => import('./list.page'));
 
 const AccessoryRoutes = () => {
   return (

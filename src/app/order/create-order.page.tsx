@@ -1,8 +1,8 @@
 import { Button, Container, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-import OrderForm from '../components/create-order.form';
-import OrderProduct from '../components/order-product.component';
+import OrderForm from './components/create-order.form';
+import OrderProduct from './components/order-product.component';
 
 const MOCK_CART_PRODUCTS = [
   {
