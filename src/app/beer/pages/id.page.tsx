@@ -1,4 +1,4 @@
-import { Button, Link, Stack } from '@mui/material';
+import { Button, Link, Rating, Stack } from '@mui/material';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import MuiLink from '@mui/material/Link';
@@ -46,12 +46,12 @@ const IdPage = () => {
             <Typography paragraph margin={0}>
               ${MOCK_BEER.price}
             </Typography>
-            <Typography paragraph margin={0}>
-              `Stars`{' '}
+            <Box display="flex" alignItems="center" gap="1rem">
+              <Rating readOnly />
               <Link component="a" href="#">
                 100 {t('review:reviews')}
               </Link>
-            </Typography>
+            </Box>
             <Box display="flex">
               <NumericStepper size="large" />
             </Box>
