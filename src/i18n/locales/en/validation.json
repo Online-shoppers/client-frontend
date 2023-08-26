@@ -1,0 +1,6 @@
+{
+  "Field-is-required": "Field is required",
+  "Field-shouldn't-be-empty": "Field shouldn't be empty",
+  "Field-should-be-email": "Field should be email",
+  "Passwords-don't-match": "Passwords don't match"
+}
