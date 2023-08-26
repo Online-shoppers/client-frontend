@@ -66,7 +66,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
               variant="h6"
               color="inherit"
               component={RouterLink}
-              to="/home"
+              to="/"
               className={classes.logo}
             >
               {t('title')}

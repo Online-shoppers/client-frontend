@@ -1,4 +1,4 @@
-import { Box, Paper, Rating, Stack, Typography } from '@mui/material';
+import { Box, Paper, Stack, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +9,6 @@ const MOCK_CATEGORY = {
     'Our beer is simply irresistible. It’s like dark chocolate Reese’s in a glass! ',
   category_image:
     'https://craftshack.com/cdn/shop/products/Belching-Beaver-Peanut-Butter-Milk-Stout-12OZ-CAN_375x.jpg?v=1642715128',
-  archived: false,
 };
 
 const useStyles = makeStyles(() => ({
@@ -47,14 +46,8 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
           alt={MOCK_CATEGORY.category}
           className={classes.image}
         />
-        <Box
-          className={classes.info}
-          gap={theme => theme.spacing(0)}
-          display="flex"
-          flexDirection="column"
-        >
+        <Box className={classes.info}>
           <Typography variant="h6">{MOCK_CATEGORY.category}</Typography>
-          <Rating readOnly />
         </Box>
       </Stack>
     </Paper>
