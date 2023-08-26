@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
 
-import NumericStepper from 'components/numeric-stepper';
+import NumericStepper from 'components/numeric-stepper.component';
 
 const MOCK_SNACK = {
   id: 'string-string-string-string',

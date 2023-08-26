@@ -1,6 +1,6 @@
 import { Box, Stack, Typography } from '@mui/material';
 
-import NumericStepper from 'components/numeric-stepper';
+import NumericStepper from 'components/numeric-stepper.component';
 
 const CartProduct = () => {
   return (
