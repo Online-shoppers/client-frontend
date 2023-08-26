@@ -1,0 +1,6 @@
+{
+  "Field-is-required": "Поле обязательно к заполнению",
+  "Field-shouldn't-be-empty": "Поле не должно быть пустым",
+  "Field-should-be-email": "Поле должно быть эмайлом",
+  "Passwords-don't-match": "Пароли не совпадают"
+}
