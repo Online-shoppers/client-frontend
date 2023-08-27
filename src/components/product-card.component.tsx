@@ -34,30 +34,34 @@ const useStyles = makeStyles(() => ({
 }));
 
 interface ProductCardProps {
-  category: string;
+  title: string;
+  price: number;
+  rating: number;
+  imageUrl: string;
+  href: string;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ category }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ title, price, rating, imageUrl, href }) => {
   const classes = useStyles();
   const navigate = useNavigate();
 
   const openProductPage = () => {
-    navigate(`/${category}/${MOCK_PRODUCT.id}`);
+    navigate(href);
   };
 
   return (
     <Paper className={classes.parent} onClick={openProductPage}>
       <Stack direction="column">
-        <img src={MOCK_PRODUCT.image} alt={MOCK_PRODUCT.name} className={classes.image} />
+        <img src={imageUrl} alt={title} className={classes.image} />
         <Box
           className={classes.info}
           gap={theme => theme.spacing(0)}
           display="flex"
           flexDirection="column"
         >
-          <Typography variant="h6">{MOCK_PRODUCT.name}</Typography>
-          <Typography variant="subtitle1">${MOCK_PRODUCT.price}</Typography>
-          <Rating readOnly />
+          <Typography variant="h6">{title}</Typography>
+          <Typography variant="subtitle1">${price}</Typography>
+          <Rating value={rating} precision={0.5} readOnly />
         </Box>
       </Stack>
     </Paper>

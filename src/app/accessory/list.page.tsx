@@ -1,9 +1,6 @@
-import { Masonry } from '@mui/lab';
 import { Box, Button, Drawer, MenuItem, Select, Stack, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import { useState } from 'react';
-
-import ProductCard from 'components/product-card.component';
 
 const ListPage = () => {
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -36,9 +33,9 @@ const ListPage = () => {
           </Stack>
         </Box>
 
-        <Masonry columns={4} spacing={2}>
+        {/* <Masonry columns={4} spacing={2}>
           <ProductCard category="accessories" />
-        </Masonry>
+        </Masonry> */}
       </Stack>
 
       <Drawer open={filtersOpen} onClose={closeFilters} anchor="right">
