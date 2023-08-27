@@ -2,6 +2,8 @@ import PersonIcon from '@mui/icons-material/Person';
 import {
   AppBar,
   Box,
+  Button,
+  ClickAwayListener,
   IconButton,
   Input,
   Link as MuiLink,
@@ -13,7 +15,10 @@ import {
 import { makeStyles } from '@mui/styles';
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { NavLink as RouterLink } from 'react-router-dom';
+
+import { getIsAuthenticated } from 'app/auth/store/auth.selectors';
 
 import UserMenu from './user-menu.component';
 
@@ -46,6 +51,8 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
   const { t } = useTranslation();
 
   const classes = useStyles();
+
+  const isAuthenticated = useSelector(getIsAuthenticated);
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -88,10 +95,21 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
               <Input color="primary" placeholder={t('Search')} fullWidth />
             </Box>
 
-            <IconButton ref={ref} onClick={toggleMenu} onMouseLeave={closeMenu}>
-              <PersonIcon />
-              <UserMenu anchorEl={ref.current} open={menuOpen} />
-            </IconButton>
+            {isAuthenticated ? (
+              <ClickAwayListener onClickAway={closeMenu} mouseEvent="onMouseDown">
+                {/* box here is needed for click away logic */}
+                <Box>
+                  <IconButton ref={ref} onClick={toggleMenu}>
+                    <PersonIcon />
+                  </IconButton>
+                  <UserMenu anchorEl={ref.current} onClose={closeMenu} open={menuOpen} />
+                </Box>
+              </ClickAwayListener>
+            ) : (
+              <Button size="small" variant="contained" href="/auth/sign-in">
+                Sign In
+              </Button>
+            )}
           </Stack>
         </Toolbar>
       </AppBar>

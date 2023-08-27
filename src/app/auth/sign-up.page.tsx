@@ -17,10 +17,13 @@ import { DefaultError } from 'errors/default.error';
 
 import storage from 'storage/client';
 
+import { useAppDispatch } from 'store';
+
 import { signUp } from './api/sign-up.api';
 import { ACCESS_TOKEN_KEY, EXPIRATION_DATE_KEY, REFRESH_TOKEN_KEY } from './constants';
 import { signUpSchema } from './schemas/sign-up.schema';
 import { UserSessionSchema } from './schemas/user-session.schema';
+import { authenticate } from './store/auth.slice';
 
 const useStyles = makeStyles(() => ({
   parent: {
@@ -42,6 +45,8 @@ const useStyles = makeStyles(() => ({
 
 const SignUp = () => {
   const { t } = useTranslation('auth');
+
+  const dispatch = useAppDispatch();
 
   const {
     handleSubmit,
@@ -79,6 +84,8 @@ const SignUp = () => {
       storage.set(ACCESS_TOKEN_KEY, data.access_token);
       storage.set(REFRESH_TOKEN_KEY, data.refresh_token);
       storage.set(EXPIRATION_DATE_KEY, session.exp);
+
+      dispatch(authenticate(session));
     } catch (err) {
       console.error(err);
 
