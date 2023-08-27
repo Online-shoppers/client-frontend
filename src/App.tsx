@@ -7,10 +7,13 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { refreshTokens } from 'app/auth/api/refresh-tokens.api';
 import { ACCESS_TOKEN_KEY, EXPIRATION_DATE_KEY, REFRESH_TOKEN_KEY } from 'app/auth/constants';
 import { UserSessionSchema } from 'app/auth/schemas/user-session.schema';
+import { authenticate, logout } from 'app/auth/store/auth.slice';
 
 import LoadingIndicator from 'components/loading-indicator.component';
 
 import storage from 'storage/client';
+
+import { useAppDispatch } from 'store';
 
 import { theme } from 'theme';
 
@@ -23,54 +26,46 @@ const FIVE_MINUTES = 1000 * 60 * 5;
 function App() {
   const refOnce = useRef(false);
 
-  const onRefreshTokens = useCallback(async () => {
-    const accessToken = storage.get(ACCESS_TOKEN_KEY);
-    const refreshToken = storage.get(REFRESH_TOKEN_KEY);
+  const dispatch = useAppDispatch();
 
+  const handleAuthenticate = (accessToken: string, refreshToken: string | null) => {
+    const payload = jwt_decode(accessToken);
+    const userSession = UserSessionSchema.validateSync(payload);
+
+    // in seconds
+    const expirationDate = userSession.exp;
+
+    storage.set(ACCESS_TOKEN_KEY, accessToken);
+    if (refreshToken) storage.set(REFRESH_TOKEN_KEY, refreshToken);
+    storage.set(EXPIRATION_DATE_KEY, expirationDate);
+
+    dispatch(authenticate(userSession));
+  };
+
+  const handleLogout = () => {
+    storage.remove(ACCESS_TOKEN_KEY);
+    storage.remove(REFRESH_TOKEN_KEY);
+    storage.remove(EXPIRATION_DATE_KEY);
+
+    dispatch(logout());
+  };
+
+  const onRefreshTokens = useCallback(async (accessToken: string, refreshToken: string) => {
     try {
-      // if (!accessToken || !refreshToken) {
-      //   dispatch(logout())
-      //   navigate('/auth/login');
-      // }
-
       const { data } = await refreshTokens({
         access_token: String(accessToken),
         refresh_token: String(refreshToken),
       });
 
-      const payload = jwt_decode(data.access_token);
-      const userSession = UserSessionSchema.validateSync(payload);
-
-      // in seconds
-      const expirationDate = userSession.exp;
-
-      storage.set(ACCESS_TOKEN_KEY, data.access_token);
-      storage.set(REFRESH_TOKEN_KEY, data.refresh_token);
-      storage.set(EXPIRATION_DATE_KEY, expirationDate);
-
-      // dispatch(authenticate());
+      handleAuthenticate(data.access_token, data.refresh_token);
     } catch (err) {
       console.error(err);
-      // dispatch(logout());
+      handleLogout();
     }
   }, []);
 
-  // const onLoginUser = useCallback(async () => {
-  //   try {
-  //     const data = await signIn({});
-  //
-  //     const expirationDate = data.ttl * 1000;
-  //
-  //     setToken(ACCESS_TOKEN_KEY, data.access_token);
-  //     setToken(REFRESH_TOKEN_KEY, data.refresh_token);
-  //     setToken(EXPIRE_DATE_KEY, expirationDate.toString());
-  //   } catch (err) {
-  //     return;
-  //   }
-  // }, []);
-
   useEffect(() => {
-    const checkTokenExpiration = () => {
+    const checkTokenExpiration = async () => {
       // in miliseconds
       const nowUtc = new Date().getTime();
 
@@ -80,31 +75,36 @@ function App() {
       const refreshToken = storage.get(REFRESH_TOKEN_KEY);
       const accessToken = storage.get(ACCESS_TOKEN_KEY);
 
-      // if (
-      //   (!accessToken && !refOnce.current) ||
-      //   (!expirationDate && !refreshToken && !refOnce.current)
-      // ) {
-      //   refOnce.current = true;
-      //   return;
-      // }
-
       const shouldRefresh = nowUtc > expirationDate * 1000 - FIVE_MINUTES;
       const hasAccessToken = !!accessToken;
       const hasRefreshToken = !!refreshToken;
 
-      if (shouldRefresh && hasRefreshToken && hasAccessToken) {
-        if (!refOnce.current) onRefreshTokens();
+      if (hasRefreshToken && hasAccessToken && (shouldRefresh || !refOnce.current)) {
+        onRefreshTokens(accessToken, refreshToken);
+
         refOnce.current = true;
-        return;
       }
     };
 
-    checkTokenExpiration();
-    const timer = setInterval(checkTokenExpiration, 60000);
+    const accessToken = storage.get(ACCESS_TOKEN_KEY);
+    const refreshToken = storage.get(REFRESH_TOKEN_KEY);
 
-    return () => {
-      clearInterval(timer);
-    };
+    if (accessToken) {
+      const payload = jwt_decode(accessToken);
+      const userSession = UserSessionSchema.validateSync(payload);
+      handleAuthenticate(accessToken, refreshToken);
+
+      const now = Date.now();
+
+      const timeout = userSession.exp * 1000 - now - FIVE_MINUTES || 0;
+
+      const timeoutId = setTimeout(checkTokenExpiration, timeout);
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    } else {
+      handleLogout();
+    }
   }, []);
 
   return (
