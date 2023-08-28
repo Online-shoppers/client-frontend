@@ -10,6 +10,8 @@ type PageBeerResponse = {
   items: Beer[];
 };
 
-export const getPageBeer = (page?: number, size?: number) => {
-  return repository.get<PageBeerResponse>('/api/beer', { params: { page, size } });
+export const getPageBeer = (sorting: string, page?: number, size?: number) => {
+  return repository.get<PageBeerResponse>('/api/beer', {
+    params: { page, size, sortOption: sorting },
+  });
 };

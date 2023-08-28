@@ -105,7 +105,7 @@ const UserMenu = forwardRef<HTMLDivElement, UserMenuProps>(({ open, onClose, anc
 
           <Stack>
             <Button variant="contained" onClick={handleLogout}>
-              Log Out
+              {t('auth:Log-out')}
             </Button>
           </Stack>
         </Stack>

@@ -1,18 +1,10 @@
 import { Masonry } from '@mui/lab';
-import {
-  Box,
-  Button,
-  Drawer,
-  MenuItem,
-  Pagination,
-  Select,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Box, Drawer, MenuItem, Pagination, Select, Stack, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import { makeStyles } from '@mui/styles';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import ProductCard from 'components/product-card.component';
@@ -22,7 +14,6 @@ import { getPageBeer } from './api/getPageBeer.api';
 const PAGE_SIZE = 20;
 
 const PARAM_PAGE = 'page';
-const PARAM_SEARCH = 'search';
 const PARAM_SORTING = 'sorting';
 
 const useStyles = makeStyles(() => ({
@@ -34,6 +25,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 const ListPage = () => {
+  const { t } = useTranslation();
+
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   const { search: urlSearchString, pathname } = useLocation();
@@ -41,20 +34,19 @@ const ListPage = () => {
   const navigate = useNavigate();
 
   const page = Number(params.get(PARAM_PAGE)) || 1;
-  const sorting = params.get(PARAM_SORTING) || '';
-  const search = params.get(PARAM_SEARCH) || '';
+  const sorting = params.get(PARAM_SORTING) || 'price:asc';
 
   const beerQuery = useQuery({
-    queryKey: ['page-beer', page],
+    queryKey: ['page-beer', page, sorting],
     queryFn: async () => {
-      const response = await getPageBeer(page, PAGE_SIZE);
+      const response = await getPageBeer(sorting, page, PAGE_SIZE);
       return response.data;
     },
   });
 
-  const openFilters = () => {
-    setFiltersOpen(true);
-  };
+  // const openFilters = () => {
+  //   setFiltersOpen(true);
+  // };
 
   const closeFilters = () => {
     setFiltersOpen(false);
@@ -69,7 +61,18 @@ const ListPage = () => {
       const newParams = new URLSearchParams(urlSearchString);
       newParams.set(PARAM_PAGE, newPage.toString());
 
-      // scrollToTop();
+      scrollToTop();
+      navigate(`${pathname}?${newParams.toString()}`);
+    },
+    [pathname, urlSearchString],
+  );
+
+  const onChangeSorting = useCallback(
+    (newSorting: string) => {
+      const newParams = new URLSearchParams(urlSearchString);
+      newParams.set(PARAM_SORTING, newSorting.toString());
+
+      scrollToTop();
       navigate(`${pathname}?${newParams.toString()}`);
     },
     [pathname, urlSearchString],
@@ -79,8 +82,7 @@ const ListPage = () => {
     const newParams = new URLSearchParams();
 
     newParams.append(PARAM_PAGE, page.toString());
-    if (search) newParams.append(PARAM_SEARCH, search);
-    // reset({ search });
+    newParams.append(PARAM_SORTING, sorting.toString());
 
     navigate(`${pathname}?${newParams.toString()}`, { replace: true });
   }, []);
@@ -104,12 +106,13 @@ const ListPage = () => {
           <Box flex={1} />
 
           <Stack gap="1rem" direction="row">
-            <Select defaultValue="popular-first">
-              <MenuItem value="popular-first">Start with popular</MenuItem>
+            <Select value={sorting} onChange={event => onChangeSorting(event.target.value)}>
+              <MenuItem value="price:desc">{t('sortings:Expensive-first')}</MenuItem>
+              <MenuItem value="price:asc">{t('sortings:Cheap-first')}</MenuItem>
             </Select>
-            <Button variant="contained" onClick={openFilters}>
+            {/* <Button variant="contained" onClick={openFilters}>
               Filters
-            </Button>
+            </Button> */}
           </Stack>
         </Box>
 
@@ -127,7 +130,12 @@ const ListPage = () => {
               ))
             : false}
         </Masonry>
-        <Pagination count={totalPages} color="primary" className={classes.pagination} />
+        <Pagination
+          onChange={(_, value) => onChangePage(value)}
+          count={totalPages}
+          color="primary"
+          className={classes.pagination}
+        />
       </Stack>
 
       <Drawer open={filtersOpen} onClose={closeFilters} anchor="right">

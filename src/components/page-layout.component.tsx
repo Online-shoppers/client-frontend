@@ -108,7 +108,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
               </ClickAwayListener>
             ) : (
               <Button size="small" variant="contained" href="/auth/sign-in">
-                Sign In
+                {t('auth:Do-sign-in')}
               </Button>
             )}
           </Stack>

@@ -1,13 +1,13 @@
-import { Box, Button, Drawer, MenuItem, Select, Stack, Typography } from '@mui/material';
+import { Box, Drawer, MenuItem, Select, Stack, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import { useState } from 'react';
 
 const ListPage = () => {
   const [filtersOpen, setFiltersOpen] = useState(false);
 
-  const openFilters = () => {
+  /* const openFilters = () => {
     setFiltersOpen(true);
-  };
+  }; */
 
   const closeFilters = () => {
     setFiltersOpen(false);
@@ -27,9 +27,9 @@ const ListPage = () => {
             <Select defaultValue="popular-first">
               <MenuItem value="popular-first">Start with popular</MenuItem>
             </Select>
-            <Button variant="contained" onClick={openFilters}>
+            {/* <Button variant="contained" onClick={openFilters}>
               Filters
-            </Button>
+            </Button> */}
           </Stack>
         </Box>
 

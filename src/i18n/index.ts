@@ -10,6 +10,7 @@ import commonEn from './locales/en/common.json';
 import errorsEn from './locales/en/errors.json';
 import orderEn from './locales/en/order.json';
 import reviewEn from './locales/en/review.json';
+import sortingsEn from './locales/en/sortings.json';
 import validationEn from './locales/en/validation.json';
 import authRu from './locales/ru/auth.json';
 import cartRu from './locales/ru/cart.json';
@@ -17,6 +18,7 @@ import commonRu from './locales/ru/common.json';
 import errorsRu from './locales/ru/errors.json';
 import orderRu from './locales/ru/order.json';
 import reviewRu from './locales/ru/review.json';
+import sortingsRu from './locales/ru/sortings.json';
 import validationRu from './locales/ru/validation.json';
 
 i18n
@@ -41,6 +43,7 @@ i18n
         errors: errorsEn,
         order: orderEn,
         review: reviewEn,
+        sortings: sortingsEn,
         validation: validationEn,
       },
       ru: {
@@ -50,6 +53,7 @@ i18n
         errors: errorsRu,
         order: orderRu,
         review: reviewRu,
+        sortings: sortingsRu,
         validation: validationRu,
       },
     },
