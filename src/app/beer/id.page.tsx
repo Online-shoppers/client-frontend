@@ -1,23 +1,52 @@
-import { Button, Rating, Skeleton, Stack } from '@mui/material';
+import { yupResolver } from '@hookform/resolvers/yup';
+import Button from '@mui/lab/LoadingButton';
+import { Alert, Rating, Skeleton, Snackbar, Stack, TextField } from '@mui/material';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import { isAxiosError } from 'axios';
+import React, { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { Navigate, useParams } from 'react-router-dom';
 
+import { getIsAuthenticated, getUserId } from 'app/auth/store/auth.selectors';
+import { addProductReview } from 'app/product/api/add-product-review.api';
 import { getProductReviews } from 'app/product/api/get-product-reviews.api';
 import ProductReview from 'app/product/components/product-review.component';
+import { productReviewSchema } from 'app/product/schemas/product-review.schema';
 
 import NumericStepper from 'components/numeric-stepper.component';
+
+import { DefaultError } from 'errors/default.error';
 
 import { getBeerById } from './api/getBeerById.api';
 
 const IdPage = () => {
   const { t } = useTranslation(['cart', 'review']);
 
+  const [isPostingReview, setIsPostingReview] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const isAuthenticated = useSelector(getIsAuthenticated);
+  const userId = useSelector(getUserId);
+
   const { id } = useParams();
+
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm({
+    resolver: yupResolver(productReviewSchema),
+    defaultValues: {
+      text: '',
+      rating: 0,
+    },
+  });
 
   const beerQuery = useQuery({
     queryKey: ['beer', id],
@@ -36,6 +65,39 @@ const IdPage = () => {
   });
 
   const data = beerQuery.data;
+
+  const isReviewed = reviewsQuery.data?.some(review => review.userId === userId);
+  const reviewsDisabled = isReviewed || reviewsQuery.isLoading;
+
+  const closeError = () => {
+    setIsError(false);
+  };
+
+  const addReview = handleSubmit(async form => {
+    if (!data) {
+      setIsError(true);
+      setErrorMessage('You are not authorized');
+      return;
+    }
+
+    try {
+      setIsPostingReview(true);
+      await addProductReview(data.id, userId, form);
+      reviewsQuery.refetch();
+    } catch (err) {
+      console.error(err);
+
+      if (isAxiosError<DefaultError>(err)) {
+        setIsError(true);
+        setErrorMessage(err.response?.data.message || err.message);
+      } else {
+        setIsError(true);
+        setErrorMessage(t('errors:Something-went-wrong'));
+      }
+    } finally {
+      setIsPostingReview(false);
+    }
+  });
 
   if (!beerQuery.isLoading && beerQuery.error) {
     return <Navigate to="/beer" />;
@@ -108,7 +170,7 @@ const IdPage = () => {
               {reviewsQuery.data?.map(review => (
                 <ProductReview
                   key={review.id}
-                  summary={review.summary}
+                  userName={review.userName}
                   text={review.text}
                   rating={review.rating}
                   userId={review.userId}
@@ -116,9 +178,59 @@ const IdPage = () => {
                 />
               ))}
             </Stack>
+
+            {isAuthenticated ? (
+              <Stack gap="0.5rem" component="form" onSubmit={addReview}>
+                <Controller
+                  name="text"
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      disabled={reviewsDisabled}
+                      multiline
+                      placeholder="Leave your review"
+                    />
+                  )}
+                  control={control}
+                />
+                <Box display="flex" justifyContent="space-between">
+                  <Controller
+                    name="rating"
+                    render={({ field }) => (
+                      <Rating
+                        {...field}
+                        disabled={reviewsDisabled}
+                        onChange={(_, value) => {
+                          field.onChange(value ?? 0);
+                        }}
+                      />
+                    )}
+                    control={control}
+                  />
+                  <Button
+                    loading={isPostingReview}
+                    disabled={reviewsDisabled || !isValid}
+                    variant="contained"
+                    type="submit"
+                  >
+                    Leave review
+                  </Button>
+                </Box>
+              </Stack>
+            ) : null}
           </Stack>
         </Container>
       </Stack>
+      <Snackbar
+        open={isError}
+        autoHideDuration={5000}
+        onClose={closeError}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert variant="filled" severity="error">
+          {errorMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

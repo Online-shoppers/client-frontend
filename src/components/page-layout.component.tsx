@@ -25,7 +25,8 @@ import UserMenu from './user-menu.component';
 const useStyles = makeStyles((theme: Theme) => ({
   main: {
     flex: 1,
-    marginTop: theme.spacing(5),
+    paddingTop: theme.spacing(5),
+    paddingBottom: theme.spacing(5),
   },
 
   logo: {
