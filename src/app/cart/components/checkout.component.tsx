@@ -12,13 +12,15 @@ interface CheckoutProps {
 const Checkout: React.FC<CheckoutProps> = ({ cart }) => {
   const { t } = useTranslation('cart');
 
+  const items = cart.products.reduce((acc, product) => acc + product.quantity, 0);
+
   return (
     <Paper>
       <Stack padding="10px" gap={theme => theme.spacing(1)}>
         <Typography variant="h6">{t('Checkout')}</Typography>
         <Stack direction="row">
           <Typography variant="subtitle1">
-            {cart.products.length} {t('items')}:{' '}
+            {items} {t('items')}:{' '}
           </Typography>
           <Typography variant="subtitle1" marginLeft="auto" fontWeight="bold" fontSize="1.2rem">
             ${cart.total}
