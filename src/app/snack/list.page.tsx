@@ -9,7 +9,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import ProductCard from 'components/product-card.component';
 
-import { getPageSnacks } from './api/getPageSnacks.api';
+import { getPageSnacks } from './api/get-page-snacks.api';
 
 const PAGE_SIZE = 20;
 
@@ -101,7 +101,7 @@ const ListPage = () => {
       <Stack gap="1rem">
         <Box display="flex" flexDirection="row">
           <Typography component="h1" variant="h4">
-            Snacks
+            {t('categories:Snacks')}
           </Typography>
 
           <Box flex={1} />

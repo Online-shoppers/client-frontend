@@ -9,7 +9,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import ProductCard from 'components/product-card.component';
 
-import { getPageBeer } from './api/getPageBeer.api';
+import { getPageBeer } from './api/get-page-beer.api';
 
 const PAGE_SIZE = 20;
 
@@ -101,7 +101,7 @@ const ListPage = () => {
       <Stack gap="1rem">
         <Box display="flex" flexDirection="row">
           <Typography component="h1" variant="h4">
-            Beer
+            {t('categories:Beer')}
           </Typography>
 
           <Box flex={1} />

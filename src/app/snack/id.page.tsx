@@ -23,7 +23,7 @@ import NumericStepper from 'components/numeric-stepper.component';
 
 import { DefaultError } from 'errors/default.error';
 
-import { getSnackById } from './api/getSnackById.api';
+import { getSnackById } from './api/get-snack-by-id.api';
 
 const IdPage = () => {
   const { t } = useTranslation(['cart', 'review']);
