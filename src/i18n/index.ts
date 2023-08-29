@@ -9,6 +9,7 @@ import cartEn from './locales/en/cart.json';
 import categoriesEn from './locales/en/categories.json';
 import commonEn from './locales/en/common.json';
 import errorsEn from './locales/en/errors.json';
+import homeEn from './locales/en/home.json';
 import orderEn from './locales/en/order.json';
 import reviewsEn from './locales/en/reviews.json';
 import sortingsEn from './locales/en/sortings.json';
@@ -18,6 +19,7 @@ import cartRu from './locales/ru/cart.json';
 import categoriesRu from './locales/ru/categories.json';
 import commonRu from './locales/ru/common.json';
 import errorsRu from './locales/ru/errors.json';
+import homeRu from './locales/ru/home.json';
 import orderRu from './locales/ru/order.json';
 import reviewsRu from './locales/ru/reviews.json';
 import sortingsRu from './locales/ru/sortings.json';
@@ -44,6 +46,7 @@ i18n
         categories: categoriesEn,
         common: commonEn,
         errors: errorsEn,
+        home: homeEn,
         order: orderEn,
         reviews: reviewsEn,
         sortings: sortingsEn,
@@ -55,6 +58,7 @@ i18n
         categories: categoriesRu,
         common: commonRu,
         errors: errorsRu,
+        home: homeRu,
         order: orderRu,
         reviews: reviewsRu,
         sortings: sortingsRu,
