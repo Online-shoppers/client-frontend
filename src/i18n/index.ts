@@ -9,7 +9,7 @@ import cartEn from './locales/en/cart.json';
 import commonEn from './locales/en/common.json';
 import errorsEn from './locales/en/errors.json';
 import orderEn from './locales/en/order.json';
-import reviewEn from './locales/en/review.json';
+import reviewsEn from './locales/en/reviews.json';
 import sortingsEn from './locales/en/sortings.json';
 import validationEn from './locales/en/validation.json';
 import authRu from './locales/ru/auth.json';
@@ -17,7 +17,7 @@ import cartRu from './locales/ru/cart.json';
 import commonRu from './locales/ru/common.json';
 import errorsRu from './locales/ru/errors.json';
 import orderRu from './locales/ru/order.json';
-import reviewRu from './locales/ru/review.json';
+import reviewsRu from './locales/ru/reviews.json';
 import sortingsRu from './locales/ru/sortings.json';
 import validationRu from './locales/ru/validation.json';
 
@@ -42,7 +42,7 @@ i18n
         common: commonEn,
         errors: errorsEn,
         order: orderEn,
-        review: reviewEn,
+        reviews: reviewsEn,
         sortings: sortingsEn,
         validation: validationEn,
       },
@@ -52,7 +52,7 @@ i18n
         common: commonRu,
         errors: errorsRu,
         order: orderRu,
-        review: reviewRu,
+        reviews: reviewsRu,
         sortings: sortingsRu,
         validation: validationRu,
       },

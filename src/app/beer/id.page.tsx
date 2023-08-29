@@ -4,7 +4,7 @@ import { Alert, Rating, Skeleton, Snackbar, Stack, TextField } from '@mui/materi
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -16,7 +16,8 @@ import { getIsAuthenticated, getUserId } from 'app/auth/store/auth.selectors';
 import { addProductReview } from 'app/product/api/add-product-review.api';
 import { getProductReviews } from 'app/product/api/get-product-reviews.api';
 import ProductReview from 'app/product/components/product-review.component';
-import { productReviewSchema } from 'app/product/schemas/product-review.schema';
+import { createProductReviewSchema } from 'app/product/schemas/create-product-review.schema';
+import { CreateProductReviewForm } from 'app/product/types/create-product-review-form.type';
 
 import NumericStepper from 'components/numeric-stepper.component';
 
@@ -26,6 +27,8 @@ import { getBeerById } from './api/getBeerById.api';
 
 const IdPage = () => {
   const { t } = useTranslation(['cart', 'review']);
+
+  const queryClient = useQueryClient();
 
   const [isPostingReview, setIsPostingReview] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -40,8 +43,8 @@ const IdPage = () => {
     control,
     handleSubmit,
     formState: { isValid },
-  } = useForm({
-    resolver: yupResolver(productReviewSchema),
+  } = useForm<CreateProductReviewForm>({
+    resolver: yupResolver(createProductReviewSchema),
     defaultValues: {
       text: '',
       rating: 0,
@@ -64,6 +67,15 @@ const IdPage = () => {
     },
   });
 
+  const reviewMutation = useMutation({
+    mutationFn: (form: CreateProductReviewForm) =>
+      addProductReview(data?.id as string, userId, form),
+    onSuccess: async () => {
+      queryClient.invalidateQueries({ queryKey: ['reviews', id] });
+      queryClient.invalidateQueries({ queryKey: ['beer', id] });
+    },
+  });
+
   const data = beerQuery.data;
 
   const isReviewed = reviewsQuery.data?.some(review => review.userId === userId);
@@ -82,8 +94,7 @@ const IdPage = () => {
 
     try {
       setIsPostingReview(true);
-      await addProductReview(data.id, userId, form);
-      reviewsQuery.refetch();
+      await reviewMutation.mutateAsync(form);
     } catch (err) {
       console.error(err);
 
@@ -102,6 +113,10 @@ const IdPage = () => {
   if (!beerQuery.isLoading && beerQuery.error) {
     return <Navigate to="/beer" />;
   }
+
+  // "Reviews": "Отзывы",
+  // "Leave-your-review": "Оставьте свой отзыв",
+  // "Leave-review": "Оставить отзыв"
 
   return (
     <Container>
@@ -143,7 +158,7 @@ const IdPage = () => {
                 )}
                 {typeof data?.reviews_amount === 'number' ? (
                   <Typography>
-                    {data?.reviews_amount} {t('review:reviews')}
+                    {data?.reviews_amount} {t('reviews:of-reviews')}
                   </Typography>
                 ) : (
                   <Skeleton width="25%" />
@@ -164,7 +179,7 @@ const IdPage = () => {
         <Container maxWidth="md">
           <Stack direction="column" gap="1rem">
             <Typography variant="h5" component="h2">
-              Reviews
+              {t('reviews:Reviews')}
             </Typography>
             <Stack gap="0.5rem">
               {reviewsQuery.data?.map(review => (
@@ -188,7 +203,7 @@ const IdPage = () => {
                       {...field}
                       disabled={reviewsDisabled}
                       multiline
-                      placeholder="Leave your review"
+                      placeholder={t('reviews:Leave-your-review')}
                     />
                   )}
                   control={control}
@@ -213,7 +228,7 @@ const IdPage = () => {
                     variant="contained"
                     type="submit"
                   >
-                    Leave review
+                    {t('reviews:Leave-review')}
                   </Button>
                 </Box>
               </Stack>

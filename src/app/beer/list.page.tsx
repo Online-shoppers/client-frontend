@@ -37,6 +37,7 @@ const ListPage = () => {
   const sorting = params.get(PARAM_SORTING) || 'price:asc';
 
   const beerQuery = useQuery({
+    refetchOnMount: true,
     queryKey: ['page-beer', page, sorting],
     queryFn: async () => {
       const response = await getPageBeer(sorting, page, PAGE_SIZE);
