@@ -61,7 +61,7 @@ const SearchList = () => {
   const productsQuery = useQuery({
     queryKey: ['search-products', name],
     queryFn: async () => {
-      const response = await getPageProducts(page, size, 'price:asd', { name });
+      const response = await getPageProducts(page, size, { name });
       return response.data;
     },
   });

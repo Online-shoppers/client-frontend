@@ -4,19 +4,28 @@ import { Grid, IconButton, Typography } from '@mui/material';
 import React, { useState } from 'react';
 
 interface NumericStepperProps {
+  value?: number;
+  onChange: (value: number) => void;
   color?: 'primary' | 'secondary' | 'default';
   size?: 'small' | 'medium' | 'large';
 }
 
-const NumericStepper: React.FC<NumericStepperProps> = ({ color = 'default', size = 'medium' }) => {
-  const [count, setCount] = useState(0);
+const NumericStepper: React.FC<NumericStepperProps> = ({
+  value = 0,
+  onChange,
+  color = 'default',
+  size = 'medium',
+}) => {
+  const [count, setCount] = useState(value);
 
   const increase = () => {
     setCount(current => current + 1);
+    onChange(count + 1);
   };
 
   const decrease = () => {
     setCount(current => current - 1);
+    onChange(count - 1);
   };
 
   return (

@@ -1,4 +1,5 @@
 import {
+  Badge,
   Button,
   List,
   ListItemButton,
@@ -10,6 +11,7 @@ import {
   ToggleButtonGroup,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { useQuery } from '@tanstack/react-query';
 import { forwardRef } from 'react';
 import { flushSync } from 'react-dom';
 import { useTranslation } from 'react-i18next';
@@ -17,6 +19,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { ACCESS_TOKEN_KEY, EXPIRATION_DATE_KEY, REFRESH_TOKEN_KEY } from 'app/auth/constants';
 import { logout } from 'app/auth/store/auth.slice';
+import { getCart } from 'app/cart/api/get-cart.api';
 
 import storage from 'storage/client';
 
@@ -42,7 +45,7 @@ interface UserMenuProps {
 }
 
 const UserMenu = forwardRef<HTMLDivElement, UserMenuProps>(({ open, onClose, anchorEl }, ref) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
@@ -50,14 +53,21 @@ const UserMenu = forwardRef<HTMLDivElement, UserMenuProps>(({ open, onClose, anc
 
   const classes = useStyles();
 
+  const cartQuery = useQuery({
+    queryKey: ['cart'],
+    queryFn: async () => {
+      const response = await getCart();
+      return response.data;
+    },
+  });
+  const cartData = cartQuery.data;
+
+  const productsAmount = cartData?.products.length;
+
   const links = [
-    { text: t('navigation.Cart'), href: '/cart' },
+    { text: t('navigation.Cart'), href: '/cart', notifications: productsAmount },
     { text: t('navigation.Order-history'), href: '/order' },
   ];
-
-  const handleChangeLanguage = (_: unknown, value: string) => {
-    i18n.changeLanguage(value);
-  };
 
   const handleLogout = () => {
     dispatch(logout());
@@ -85,23 +95,10 @@ const UserMenu = forwardRef<HTMLDivElement, UserMenuProps>(({ open, onClose, anc
                 }}
               >
                 <ListItemText>{link.text}</ListItemText>
+                <Badge badgeContent={link.notifications} color="primary" />
               </ListItemButton>
             ))}
           </List>
-
-          <ToggleButtonGroup
-            color="primary"
-            value={i18n.language}
-            exclusive
-            onChange={handleChangeLanguage}
-          >
-            <ToggleButton value="en" className={classes.languageButton}>
-              {t('languages.English')}
-            </ToggleButton>
-            <ToggleButton value="ru" className={classes.languageButton}>
-              {t('languages.Russian')}
-            </ToggleButton>
-          </ToggleButtonGroup>
 
           <Stack>
             <Button variant="contained" onClick={handleLogout}>

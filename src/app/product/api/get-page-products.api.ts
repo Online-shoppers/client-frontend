@@ -14,13 +14,8 @@ interface PageProductsResponse {
   items: Product[];
 }
 
-export const getPageProducts = (
-  page: number,
-  size: number,
-  sorting: string,
-  filters: ProductFilters,
-) => {
+export const getPageProducts = (page: number, size: number, filters: ProductFilters) => {
   return repository.get<PageProductsResponse>('/api/products', {
-    params: { page, size, sortOption: sorting, name: filters.name },
+    params: { page, size, name: filters.name },
   });
 };
