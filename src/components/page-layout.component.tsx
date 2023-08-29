@@ -5,7 +5,6 @@ import {
   Button,
   ClickAwayListener,
   IconButton,
-  Input,
   Link as MuiLink,
   Stack,
   Theme,
@@ -20,6 +19,7 @@ import { NavLink as RouterLink } from 'react-router-dom';
 
 import { getIsAuthenticated } from 'app/auth/store/auth.selectors';
 
+import SearchList from './search-list.component';
 import UserMenu from './user-menu.component';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -93,7 +93,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
             </Stack>
 
             <Box sx={{ flexBasis: 400, marginLeft: 'auto !important' }}>
-              <Input color="primary" placeholder={t('Search')} fullWidth />
+              <SearchList />
             </Box>
 
             {isAuthenticated ? (
