@@ -10,8 +10,10 @@
   "languages": {
     "English": "English",
     "Eng": "Eng",
+    "En": "En",
     "Russian": "Russian",
-    "Ru": "Rus"
+    "Rus": "Rus",
+    "Ru": "Ru"
   },
   "Search": "Search"
 }

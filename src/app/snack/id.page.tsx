@@ -14,6 +14,7 @@ import { Navigate, useParams } from 'react-router-dom';
 
 import { getIsAuthenticated, getUserId } from 'app/auth/store/auth.selectors';
 import { addProductReview } from 'app/product/api/add-product-review.api';
+import { addProductToCart } from 'app/product/api/add-product-to-cart.api';
 import { getProductReviews } from 'app/product/api/get-product-reviews.api';
 import ProductReview from 'app/product/components/product-review.component';
 import { createProductReviewSchema } from 'app/product/schemas/create-product-review.schema';
@@ -27,6 +28,8 @@ import { getSnackById } from './api/get-snack-by-id.api';
 
 const IdPage = () => {
   const { t } = useTranslation(['cart', 'review']);
+
+  const [amount, setAmount] = useState(0);
 
   const queryClient = useQueryClient();
 
@@ -81,6 +84,10 @@ const IdPage = () => {
   const isReviewed = reviewsQuery.data?.some(review => review.userId === userId);
   const reviewsDisabled = isReviewed || reviewsQuery.isLoading;
 
+  const onChangeAmount = (newAmount: number) => {
+    setAmount(newAmount);
+  };
+
   const closeError = () => {
     setIsError(false);
   };
@@ -109,6 +116,31 @@ const IdPage = () => {
       setIsPostingReview(false);
     }
   });
+
+  const addToCartMutation = useMutation({
+    mutationFn: async () => {
+      await addProductToCart(data?.id || '', amount);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['cart']);
+    },
+  });
+
+  const onAddToCart = async () => {
+    try {
+      await addToCartMutation.mutateAsync();
+    } catch (err) {
+      console.error(err);
+
+      if (isAxiosError<DefaultError>(err)) {
+        setIsError(true);
+        setErrorMessage(err.response?.data.message || err.message);
+      } else {
+        setIsError(true);
+        setErrorMessage(t('errors:Something-went-wrong'));
+      }
+    }
+  };
 
   if (!snackQuery.isLoading && snackQuery.error) {
     return <Navigate to="/snack" />;
@@ -161,10 +193,10 @@ const IdPage = () => {
                 )}
               </Box>
               <Box display="flex">
-                <NumericStepper size="large" />
+                <NumericStepper size="large" value={amount} onChange={onChangeAmount} />
               </Box>
               <Box display="flex" marginTop={theme => theme.spacing(1)}>
-                <Button disabled={snackQuery.isLoading} variant="contained">
+                <Button disabled={snackQuery.isLoading} variant="contained" onClick={onAddToCart}>
                   {t('cart:Add-to-cart')}
                 </Button>
               </Box>

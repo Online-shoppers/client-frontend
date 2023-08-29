@@ -1,6 +1,7 @@
 import PersonIcon from '@mui/icons-material/Person';
 import {
   AppBar,
+  Badge,
   Box,
   Button,
   ClickAwayListener,
@@ -8,16 +9,20 @@ import {
   Link as MuiLink,
   Stack,
   Theme,
+  ToggleButton,
+  ToggleButtonGroup,
   Toolbar,
   Typography,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { useQuery } from '@tanstack/react-query';
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { NavLink as RouterLink } from 'react-router-dom';
 
 import { getIsAuthenticated } from 'app/auth/store/auth.selectors';
+import { getCart } from 'app/cart/api/get-cart.api';
 
 import SearchList from './search-list.component';
 import UserMenu from './user-menu.component';
@@ -42,27 +47,58 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-interface PageLayoutProps {
-  children: React.ReactNode;
-}
-
-const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
-  const ref = useRef<HTMLButtonElement>(null);
-
-  const { t } = useTranslation();
-
-  const classes = useStyles();
-
-  const isAuthenticated = useSelector(getIsAuthenticated);
+const UserIcon = () => {
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
 
   const toggleMenu = () => {
     setMenuOpen(current => !current);
   };
 
-  const closeMenu = () => {
-    setMenuOpen(false);
+  const cartQuery = useQuery({
+    queryKey: ['cart'],
+    queryFn: async () => {
+      const response = await getCart();
+      return response.data;
+    },
+  });
+  const cartData = cartQuery.data;
+
+  const productsAmount = cartData?.products.length;
+
+  return (
+    <ClickAwayListener onClickAway={closeMenu} mouseEvent="onMouseDown">
+      {/* box here is needed for click away logic */}
+      <Box>
+        <IconButton ref={buttonRef} onClick={toggleMenu}>
+          <Badge badgeContent={productsAmount} color="primary" overlap="circular" variant="dot">
+            <PersonIcon color="action" />
+          </Badge>
+        </IconButton>
+        <UserMenu anchorEl={buttonRef.current} onClose={closeMenu} open={menuOpen} />
+      </Box>
+    </ClickAwayListener>
+  );
+};
+
+interface PageLayoutProps {
+  children: React.ReactNode;
+}
+
+const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
+  const { t, i18n } = useTranslation();
+
+  const classes = useStyles();
+
+  const isAuthenticated = useSelector(getIsAuthenticated);
+
+  const handleChangeLanguage = (_: unknown, value: string) => {
+    i18n.changeLanguage(value);
   };
 
   return (
@@ -79,7 +115,6 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
             >
               {t('title')}
             </Typography>
-
             <Stack spacing={2} direction="row" justifyContent="space-around">
               <MuiLink component={RouterLink} to="/beer" className={classes.link}>
                 {t('navigation.Beer')}
@@ -91,26 +126,29 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
                 {t('navigation.Accessories')}
               </MuiLink>
             </Stack>
-
             <Box sx={{ flexBasis: 400, marginLeft: 'auto !important' }}>
               <SearchList />
             </Box>
 
-            {isAuthenticated ? (
-              <ClickAwayListener onClickAway={closeMenu} mouseEvent="onMouseDown">
-                {/* box here is needed for click away logic */}
-                <Box>
-                  <IconButton ref={ref} onClick={toggleMenu}>
-                    <PersonIcon />
-                  </IconButton>
-                  <UserMenu anchorEl={ref.current} onClose={closeMenu} open={menuOpen} />
-                </Box>
-              </ClickAwayListener>
-            ) : (
-              <Button size="small" variant="contained" href="/auth/sign-in">
-                {t('auth:Do-sign-in')}
-              </Button>
-            )}
+            <Stack direction="row" gap="1rem">
+              <ToggleButtonGroup
+                color="primary"
+                size="small"
+                value={i18n.language}
+                exclusive
+                onChange={handleChangeLanguage}
+              >
+                <ToggleButton value="en">En</ToggleButton>
+                <ToggleButton value="ru">Ru</ToggleButton>
+              </ToggleButtonGroup>
+              {isAuthenticated ? (
+                <UserIcon />
+              ) : (
+                <Button size="small" variant="contained" href="/auth/sign-in">
+                  {t('auth:Do-sign-in')}
+                </Button>
+              )}
+            </Stack>
           </Stack>
         </Toolbar>
       </AppBar>
