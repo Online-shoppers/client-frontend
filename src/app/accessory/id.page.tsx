@@ -29,7 +29,7 @@ import { getAccessoryById } from './api/get-accessory-by-id.api';
 const IdPage = () => {
   const { t } = useTranslation(['cart', 'review']);
 
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(1);
 
   const queryClient = useQueryClient();
 
@@ -146,6 +146,9 @@ const IdPage = () => {
     return <Navigate to="/accessories" />;
   }
 
+  const ableToAddReview = !reviewsDisabled && isValid;
+  const ableToAddToCart = isAuthenticated && !accessoryQuery.isLoading;
+
   return (
     <Container>
       <Stack direction="column" gap="2rem">
@@ -196,11 +199,7 @@ const IdPage = () => {
                 <NumericStepper size="large" value={amount} onChange={onChangeAmount} />
               </Box>
               <Box display="flex" marginTop={theme => theme.spacing(1)}>
-                <Button
-                  disabled={accessoryQuery.isLoading}
-                  variant="contained"
-                  onClick={onAddToCart}
-                >
+                <Button disabled={!ableToAddToCart} variant="contained" onClick={onAddToCart}>
                   {t('cart:Add-to-cart')}
                 </Button>
               </Box>
@@ -256,7 +255,7 @@ const IdPage = () => {
                   />
                   <Button
                     loading={isPostingReview}
-                    disabled={reviewsDisabled || !isValid}
+                    disabled={!ableToAddReview}
                     variant="contained"
                     type="submit"
                   >
