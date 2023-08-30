@@ -43,21 +43,19 @@ const CartPage = () => {
         </Typography>
         <Stack display="flex" direction="row" gap={theme => theme.spacing(5)}>
           <Stack flex={5} gap={theme => theme.spacing(1)}>
-            {cartData ? (
-              cartData.products.map(product => (
-                <CartProduct
-                  key={product.id}
-                  id={product.id}
-                  name={product.name}
-                  imageUrl={product.imageUrl}
-                  unitPrice={product.unitPrice}
-                  amount={product.quantity}
-                  onChange={onChangeAmount}
-                />
-              ))
-            ) : (
-              <Typography variant="body1">Nothing in cart</Typography>
-            )}
+            {cartData
+              ? cartData.products.map(product => (
+                  <CartProduct
+                    key={product.id}
+                    id={product.id}
+                    name={product.name}
+                    imageUrl={product.imageUrl}
+                    unitPrice={product.unitPrice}
+                    amount={product.quantity}
+                    onChange={onChangeAmount}
+                  />
+                ))
+              : null}
           </Stack>
           <Box flex={2}>{cartData ? <Checkout cart={cartData} /> : null}</Box>
         </Stack>

@@ -11,6 +11,7 @@
   "Phone": "Phone",
   "Buy": "Buy",
   "Status": "Status",
+  "Order-ID": "Order ID",
 
   "statuses": {
     "PENDING": "Pending",

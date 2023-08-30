@@ -1,4 +1,6 @@
-export interface Order {
+import { OrderProductType } from './order-product.type';
+
+export interface OrderType {
   id: string;
   created: number;
   updated: number;
@@ -8,5 +10,7 @@ export interface Order {
   zipCode: string;
   address: string;
   phone: string;
+  total: number;
   buyerId: string;
+  products: OrderProductType[];
 }

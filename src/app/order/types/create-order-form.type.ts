@@ -6,5 +6,4 @@ export interface CreateOrderFormType {
   zipCode: string;
   address: string;
   phone: string;
-  buyerId: string;
 }

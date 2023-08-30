@@ -8,5 +8,4 @@ export const createOrderSchema = yup.object({
   zipCode: yup.string().trim().required('validation:No-zip-code'),
   lastName: yup.string().trim().required('validation:No-last-name'),
   firstName: yup.string().trim().required('validation:No-first-name'),
-  buyerId: yup.string().uuid().trim().required('validation:No-first-name'),
 });

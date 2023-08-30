@@ -41,7 +41,6 @@ const CreateOrderPage = () => {
       zipCode: '',
       lastName: '',
       firstName: '',
-      buyerId: userId,
     },
     resolver: yupResolver(createOrderSchema),
   });
