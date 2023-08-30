@@ -1,0 +1,22 @@
+{
+  "Created": "Created",
+  "Updated": "Updated",
+  "title": "Yummy beer",
+  "navigation": {
+    "Beer": "Beer",
+    "Snacks": "Snacks",
+    "Accessories": "Accessories",
+    "Cart": "Cart",
+    "Order-history": "Order history"
+  },
+  "languages": {
+    "English": "English",
+    "Eng": "Eng",
+    "En": "En",
+    "Russian": "Russian",
+    "Rus": "Rus",
+    "Ru": "Ru"
+  },
+  "Search": "Search",
+  "pc": "pc"
+}

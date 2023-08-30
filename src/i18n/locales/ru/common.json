@@ -1,0 +1,22 @@
+{
+  "Created": "Создано",
+  "Updated": "Изменено",
+  "title": "Yummy beer",
+  "navigation": {
+    "Beer": "Пиво",
+    "Snacks": "Закуски",
+    "Accessories": "Аксессуары",
+    "Cart": "Корзина",
+    "Order-history": "История заказов"
+  },
+  "languages": {
+    "English": "Английский",
+    "Eng": "Анг",
+    "En": "Ан",
+    "Russian": "Русский",
+    "Rus": "Рус",
+    "Ru": "Ру"
+  },
+  "Search": "Искать",
+  "pc": "шт"
+}

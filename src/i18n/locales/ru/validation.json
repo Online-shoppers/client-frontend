@@ -1,0 +1,14 @@
+{
+  "Field-is-required": "Поле обязательно к заполнению",
+  "Field-shouldn't-be-empty": "Поле не должно быть пустым",
+  "Field-should-be-email": "Поле должно быть эмайлом",
+  "Passwords-don't-match": "Пароли не совпадают",
+
+  "No-first-name": "Нет имени",
+  "No-last-name": "Нет фамилии",
+  "No-country": "Нет страны",
+  "No-city": "Нет города",
+  "No-zip-code": "Нет индекса",
+  "No-address": "Нет адреса",
+  "No-phone-number": "Нет телефона"
+}
