@@ -24,7 +24,7 @@ const NumericStepper: React.FC<NumericStepperProps> = ({
   };
 
   const decrease = () => {
-    if (count > 0) {
+    if (count > 1) {
       setCount(current => current - 1);
       onChange(count - 1);
     }
