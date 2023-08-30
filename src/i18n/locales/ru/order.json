@@ -6,8 +6,16 @@
   "Last-name": "Фамилия",
   "Country": "Страна",
   "City": "Город",
-  "Zip-code": "Почтовый индекс",
+  "Zip-code": "Индекс",
   "Address": "Адресс",
   "Phone": "Телефон",
-  "Buy": "Купить"
+  "Buy": "Купить",
+  "Status": "Статус",
+
+  "statuses": {
+    "PENDING": "Обрабатывается",
+    "AWAITING_SHIPMENT": "Ожидает отправку",
+    "SHIPPED": "Отправлен",
+    "REFUNDED": "Возмещен"
+  }
 }

@@ -9,5 +9,13 @@
   "Zip-code": "Zip code",
   "Address": "Address",
   "Phone": "Phone",
-  "Buy": "Buy"
+  "Buy": "Buy",
+  "Status": "Status",
+
+  "statuses": {
+    "PENDING": "Pending",
+    "AWAITING_SHIPMENT": "Awaiting shipment",
+    "SHIPPED": "Shipped",
+    "REFUNDED": "Refunded"
+  }
 }

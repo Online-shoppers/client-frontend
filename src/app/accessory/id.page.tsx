@@ -33,7 +33,6 @@ const IdPage = () => {
 
   const queryClient = useQueryClient();
 
-  const [isPostingReview, setIsPostingReview] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -45,7 +44,7 @@ const IdPage = () => {
   const {
     control,
     handleSubmit,
-    formState: { isValid },
+    formState: { isValid, isSubmitting: isPostingReview },
   } = useForm({
     resolver: yupResolver(createProductReviewSchema),
     defaultValues: {
@@ -100,7 +99,6 @@ const IdPage = () => {
     }
 
     try {
-      setIsPostingReview(true);
       await reviewsMutation.mutateAsync(form);
     } catch (err) {
       console.error(err);
@@ -112,8 +110,6 @@ const IdPage = () => {
         setIsError(true);
         setErrorMessage(t('errors:Something-went-wrong'));
       }
-    } finally {
-      setIsPostingReview(false);
     }
   });
 
@@ -199,7 +195,12 @@ const IdPage = () => {
                 <NumericStepper size="large" value={amount} onChange={onChangeAmount} />
               </Box>
               <Box display="flex" marginTop={theme => theme.spacing(1)}>
-                <Button disabled={!ableToAddToCart} variant="contained" onClick={onAddToCart}>
+                <Button
+                  disabled={!ableToAddToCart}
+                  variant="contained"
+                  onClick={onAddToCart}
+                  loading={addToCartMutation.isLoading}
+                >
                   {t('cart:Add-to-cart')}
                 </Button>
               </Box>

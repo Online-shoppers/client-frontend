@@ -1,4 +1,6 @@
+import dayjs from 'dayjs';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
@@ -7,6 +9,7 @@ import AuthRoutes from 'app/auth/routes';
 import { getIsAuthenticated } from 'app/auth/store/auth.selectors';
 import BeerRoutes from 'app/beer/routes';
 import CartRoutes from 'app/cart/routes';
+import HistoryRoutes from 'app/history/routes';
 import OrderRoutes from 'app/order/routes';
 import SnackRoutes from 'app/snack/routes';
 
@@ -22,6 +25,10 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
 };
 
 const AppRoutes = () => {
+  const { i18n } = useTranslation();
+
+  dayjs.locale(i18n.language);
+
   return (
     <Routes>
       <Route path="/auth/*" element={<AuthRoutes />} />
@@ -30,6 +37,7 @@ const AppRoutes = () => {
       <Route path="/beer/*" element={<BeerRoutes />} />
       <Route path="/snacks/*" element={<SnackRoutes />} />
       <Route path="/accessories/*" element={<AccessoryRoutes />} />
+      <Route path="/history/*" element={<HistoryRoutes />} />
 
       <Route
         path="/cart/*"
