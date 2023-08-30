@@ -2,5 +2,13 @@
   "Field-is-required": "Field is required",
   "Field-shouldn't-be-empty": "Field shouldn't be empty",
   "Field-should-be-email": "Field should be email",
-  "Passwords-don't-match": "Passwords don't match"
+  "Passwords-don't-match": "Passwords don't match",
+
+  "No-first-name": "No first name",
+  "No-last-name": "No last name",
+  "No-country": "No country",
+  "No-city": "No city",
+  "No-zip-code": "No zip code",
+  "No-address": "No address",
+  "No-phone-number": "No phone numer"
 }

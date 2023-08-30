@@ -1,4 +1,6 @@
 {
+  "Created": "Created",
+  "Updated": "Updated",
   "title": "Yummy beer",
   "navigation": {
     "Beer": "Beer",
@@ -15,5 +17,6 @@
     "Rus": "Rus",
     "Ru": "Ru"
   },
-  "Search": "Search"
+  "Search": "Search",
+  "pc": "pc"
 }

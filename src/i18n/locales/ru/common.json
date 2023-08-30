@@ -1,4 +1,6 @@
 {
+  "Created": "Создано",
+  "Updated": "Изменено",
   "title": "Yummy beer",
   "navigation": {
     "Beer": "Пиво",
@@ -15,5 +17,6 @@
     "Rus": "Рус",
     "Ru": "Ру"
   },
-  "Search": "Искать"
+  "Search": "Искать",
+  "pc": "шт"
 }

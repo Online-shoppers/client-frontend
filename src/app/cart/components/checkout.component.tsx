@@ -26,7 +26,7 @@ const Checkout: React.FC<CheckoutProps> = ({ cart }) => {
             ${cart.total}
           </Typography>
         </Stack>
-        <Button variant="contained" component={RouterLink} to="/order">
+        <Button variant="contained" component={RouterLink} to="/order" disabled={items === 0}>
           {t('Proceed-to-payment')}
         </Button>
       </Stack>

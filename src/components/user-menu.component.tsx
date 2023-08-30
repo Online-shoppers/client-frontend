@@ -7,8 +7,6 @@ import {
   Paper,
   Popper,
   Stack,
-  ToggleButton,
-  ToggleButtonGroup,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useQuery } from '@tanstack/react-query';
@@ -66,7 +64,7 @@ const UserMenu = forwardRef<HTMLDivElement, UserMenuProps>(({ open, onClose, anc
 
   const links = [
     { text: t('navigation.Cart'), href: '/cart', notifications: productsAmount },
-    { text: t('navigation.Order-history'), href: '/order' },
+    { text: t('navigation.Order-history'), href: '/history/orders' },
   ];
 
   const handleLogout = () => {

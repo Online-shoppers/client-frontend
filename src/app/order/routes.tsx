@@ -16,7 +16,6 @@ const OrderRoutes = () => {
         }
       >
         <Route path="/" element={<CreateOrderPage />} />
-        <Route path="/:id" element={<div>Speciefic order</div>} />
 
         <Route path="*" element={<Navigate to="./" replace />} />
       </Route>
