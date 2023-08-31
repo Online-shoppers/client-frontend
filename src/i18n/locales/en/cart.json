@@ -3,5 +3,6 @@
   "Checkout": "Checkout",
   "Proceed-to-payment": "Proceed to payment",
   "items": "items",
-  "Add-to-cart": "Add to cart"
+  "Add-to-cart": "Add to cart",
+  "Nothing-in-the-cart": "Nothing in the cart"
 }

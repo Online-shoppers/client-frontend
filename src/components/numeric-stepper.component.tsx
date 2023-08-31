@@ -5,30 +5,42 @@ import React, { useState } from 'react';
 
 interface NumericStepperProps {
   value?: number;
-  onChange: (value: number) => void;
   color?: 'primary' | 'secondary' | 'default';
   size?: 'small' | 'medium' | 'large';
+  min?: number;
+  max?: number;
+  onChange: (value: number) => void;
 }
 
 const NumericStepper: React.FC<NumericStepperProps> = ({
   value = 0,
-  onChange,
   color = 'default',
   size = 'medium',
+  min,
+  max,
+  onChange,
 }) => {
   const [count, setCount] = useState(value);
 
   const increase = () => {
-    setCount(current => current + 1);
-    onChange(count + 1);
+    setCount(current => {
+      const newValue = getIncreasedValue(current);
+      onChange(newValue);
+      return newValue;
+    });
   };
 
   const decrease = () => {
-    if (count > 1) {
-      setCount(current => current - 1);
-      onChange(count - 1);
-    }
+    setCount(current => {
+      const newValue = getDecreasedValue(current);
+      onChange(newValue);
+      return newValue;
+    });
   };
+
+  const getIncreasedValue = (current: number) => Math.min(current + 1, max || Infinity);
+
+  const getDecreasedValue = (current: number) => Math.max(current - 1, min || -Infinity);
 
   return (
     <Grid

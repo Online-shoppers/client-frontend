@@ -30,6 +30,10 @@ const useStyles = makeStyles(() => ({
     overflowY: 'auto',
   },
 
+  popper: {
+    isolation: 'isolate',
+  },
+
   listItem: {
     marginLeft: '-1rem',
     marginRight: '-1rem',
@@ -103,6 +107,7 @@ const SearchList = () => {
             open={modalOpen}
             anchorEl={inputRef.current}
             placement="bottom-start"
+            className={classes.popper}
           >
             <Paper className={classes.paper}>
               <Stack gap={1}>

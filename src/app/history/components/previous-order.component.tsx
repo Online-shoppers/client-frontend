@@ -1,4 +1,4 @@
-import { Paper, Typography } from '@mui/material';
+import { Paper, Skeleton, Typography } from '@mui/material';
 import { Link as MuiLink } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Box, Stack } from '@mui/system';
@@ -11,6 +11,11 @@ import { OrderType } from 'app/order/types/order.type';
 const useStyles = makeStyles(() => ({
   paper: {
     padding: '1rem',
+  },
+
+  price: {
+    fontSize: '1.3rem',
+    fontWeight: 'bold',
   },
 }));
 
@@ -26,11 +31,14 @@ const PreviousOrder: React.FC<PreviousOrderProps> = ({ order }) => {
   return (
     <Paper className={classes.paper}>
       <Stack gap="1rem" direction="column">
-        <Stack direction="row" justifyContent="space-between">
-          <Typography>
-            {t('order:Order-ID')}: {order.id}
-          </Typography>
-          <Typography>${order.total}</Typography>
+        <Stack>
+          <Stack direction="row" justifyContent="space-between">
+            <Typography>
+              {t('order:Order-ID')}: {order.id}
+            </Typography>
+            <Typography className={classes.price}>${order.total}</Typography>
+          </Stack>
+          <Typography>{t(`order:statuses.${order.status}`)}</Typography>
         </Stack>
 
         {order.products.map(product => (
@@ -55,6 +63,40 @@ const PreviousOrder: React.FC<PreviousOrderProps> = ({ order }) => {
 
               <Typography>{product.quantity + t('pc')}</Typography>
               <Typography>${product.price * product.quantity}</Typography>
+            </Stack>
+          </Box>
+        ))}
+      </Stack>
+    </Paper>
+  );
+};
+
+export const PreviousOrderSkeleton = () => {
+  const classes = useStyles();
+
+  const amount = Math.ceil((Math.random() * 10) % 3);
+
+  const items = Array(amount).fill(true);
+
+  return (
+    <Paper className={classes.paper}>
+      <Stack gap="1rem" direction="column">
+        <Stack>
+          <Skeleton variant="text" />
+          <Skeleton variant="text" />
+        </Stack>
+
+        {items.map((_, idx) => (
+          <Box key={idx}>
+            <Stack gap={3} direction="row" width="100%">
+              <Box flexBasis={80} width="100%">
+                <Skeleton width="100%" height="80px" variant="rectangular" />
+              </Box>
+
+              <Stack width="100%">
+                <Skeleton variant="text" />
+                <Skeleton variant="text" />
+              </Stack>
             </Stack>
           </Box>
         ))}
