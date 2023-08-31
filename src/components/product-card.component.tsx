@@ -1,4 +1,4 @@
-import { Box, Paper, Rating, Stack, Typography } from '@mui/material';
+import { Box, Paper, Rating, Skeleton, Stack, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -47,6 +47,38 @@ const ProductCard: React.FC<ProductCardProps> = ({ title, price, rating, imageUr
           <Typography variant="h6">{title}</Typography>
           <Typography variant="subtitle1">${price}</Typography>
           <Rating value={rating} precision={0.5} readOnly />
+        </Box>
+      </Stack>
+    </Paper>
+  );
+};
+
+export const ProductCardSkeleton = () => {
+  const classes = useStyles();
+
+  const minHeight = 170;
+  const maxHeight = 400;
+
+  const generateHeight = () => {
+    const delta = maxHeight - minHeight;
+    return minHeight + Math.random() * delta;
+  };
+
+  const height = generateHeight();
+
+  return (
+    <Paper>
+      <Stack direction="column">
+        <Skeleton className={classes.image} variant="rectangular" height={height} />
+        <Box
+          className={classes.info}
+          gap={theme => theme.spacing(0)}
+          display="flex"
+          flexDirection="column"
+        >
+          <Skeleton variant="text" />
+          <Skeleton variant="text" />
+          <Rating readOnly />
         </Box>
       </Stack>
     </Paper>

@@ -6,9 +6,8 @@ import { isAxiosError } from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 
-import { getUserId } from 'app/auth/store/auth.selectors';
+import { getCartProducts } from 'app/cart/api/get-cart-products.api';
 import { getCart } from 'app/cart/api/get-cart.api';
 
 import { DefaultError } from 'errors/default.error';
@@ -24,8 +23,6 @@ const CreateOrderPage = () => {
 
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-
-  const userId = useSelector(getUserId);
 
   const {
     handleSubmit,
@@ -47,19 +44,22 @@ const CreateOrderPage = () => {
 
   const queryClient = useQueryClient();
 
-  const cartQuery = useQuery({
-    queryKey: ['cart'],
+  const cartProductsQuery = useQuery({
+    queryKey: ['cart-products'],
     queryFn: async () => {
-      const response = await getCart();
+      const response = await getCartProducts();
       return response.data;
     },
   });
-  const cartData = cartQuery.data;
 
   const createOrderMutation = useMutation({
     mutationFn: createOrder,
     onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ['cart'] });
+      queryClient.invalidateQueries({ queryKey: ['cart-info'] });
+      queryClient.invalidateQueries({ queryKey: ['cart-products'] });
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
+
       reset();
     },
   });
@@ -93,7 +93,7 @@ const CreateOrderPage = () => {
           <Button
             variant="contained"
             onClick={handleCreateOrder}
-            disabled={cartData?.products.length === 0 || !isValid}
+            disabled={cartProductsQuery.data?.length === 0 || !isValid}
             loading={createOrderMutation.isLoading}
           >
             {t('Buy')}
@@ -102,7 +102,7 @@ const CreateOrderPage = () => {
         <Stack flex={1} gap={theme => theme.spacing(3)}>
           <Typography variant="h5">{t('Order')}:</Typography>
           <Stack gap={theme => theme.spacing(2)}>
-            {cartData?.products.map(product => (
+            {cartProductsQuery.data?.map(product => (
               <OrderProduct
                 key={product.id}
                 name={product.name}

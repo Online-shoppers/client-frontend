@@ -119,6 +119,8 @@ const IdPage = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['cart']);
+      queryClient.invalidateQueries(['cart-info']);
+      queryClient.invalidateQueries(['cart-products']);
     },
   });
 
@@ -192,7 +194,7 @@ const IdPage = () => {
                 )}
               </Box>
               <Box display="flex">
-                <NumericStepper size="large" value={amount} onChange={onChangeAmount} />
+                <NumericStepper size="large" value={amount} min={1} onChange={onChangeAmount} />
               </Box>
               <Box display="flex" marginTop={theme => theme.spacing(1)}>
                 <Button

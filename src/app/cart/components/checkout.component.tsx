@@ -3,16 +3,13 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { Cart } from '../types/cart.type';
-
 interface CheckoutProps {
-  cart: Cart;
+  total?: number;
+  items?: number;
 }
 
-const Checkout: React.FC<CheckoutProps> = ({ cart }) => {
+const Checkout: React.FC<CheckoutProps> = ({ total = 0, items = 0 }) => {
   const { t } = useTranslation('cart');
-
-  const items = cart.products.reduce((acc, product) => acc + product.quantity, 0);
 
   return (
     <Paper>
@@ -20,10 +17,10 @@ const Checkout: React.FC<CheckoutProps> = ({ cart }) => {
         <Typography variant="h6">{t('Checkout')}</Typography>
         <Stack direction="row">
           <Typography variant="subtitle1">
-            {items} {t('items')}:{' '}
+            {items} {t('items')}:
           </Typography>
           <Typography variant="subtitle1" marginLeft="auto" fontWeight="bold" fontSize="1.2rem">
-            ${cart.total}
+            ${total}
           </Typography>
         </Stack>
         <Button variant="contained" component={RouterLink} to="/order" disabled={items === 0}>

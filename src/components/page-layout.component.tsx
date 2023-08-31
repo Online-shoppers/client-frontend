@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     flex: 1,
     paddingTop: theme.spacing(5),
     paddingBottom: theme.spacing(5),
+    isolation: 'isolate',
   },
 
   logo: {
