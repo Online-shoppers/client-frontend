@@ -3,11 +3,11 @@ import { Box, Drawer, MenuItem, Pagination, Select, Stack, Typography } from '@m
 import Container from '@mui/material/Container';
 import { makeStyles } from '@mui/styles';
 import { useQuery } from '@tanstack/react-query';
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import ProductCard from 'components/product-card.component';
+import ProductCard, { ProductCardSkeleton } from 'components/product-card.component';
 
 import { getPageAccessories } from './api/get-page-accessories.api';
 
@@ -118,18 +118,31 @@ const ListPage = () => {
         </Box>
 
         <Masonry columns={4} spacing={2}>
-          {accessoryQuery.data
-            ? accessoryQuery.data.items.map(item => (
-                <ProductCard
-                  key={item.id}
-                  title={item.name}
-                  price={item.price}
-                  rating={item.rating}
-                  imageUrl={item.image_url}
-                  href={location.pathname.concat('/', item.id)}
-                />
-              ))
-            : false}
+          {accessoryQuery.data ? (
+            accessoryQuery.data.items.map(item => (
+              <ProductCard
+                key={item.id}
+                title={item.name}
+                price={item.price}
+                rating={item.rating}
+                imageUrl={item.image_url}
+                href={location.pathname.concat('/', item.id)}
+              />
+            ))
+          ) : (
+            <React.Fragment>
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+            </React.Fragment>
+          )}
         </Masonry>
         <Pagination
           onChange={(_, value) => onChangePage(value)}
