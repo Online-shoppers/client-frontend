@@ -1,5 +1,14 @@
 import { Masonry } from '@mui/lab';
-import { Box, Drawer, MenuItem, Pagination, Select, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Drawer,
+  MenuItem,
+  Pagination,
+  Select,
+  Stack,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import Container from '@mui/material/Container';
 import { makeStyles } from '@mui/styles';
 import { useQuery } from '@tanstack/react-query';
@@ -107,10 +116,12 @@ const ListPage = () => {
           <Box flex={1} />
 
           <Stack gap="1rem" direction="row">
-            <Select value={sorting} onChange={event => onChangeSorting(event.target.value)}>
-              <MenuItem value="price:desc">{t('sortings:Expensive-first')}</MenuItem>
-              <MenuItem value="price:asc">{t('sortings:Cheap-first')}</MenuItem>
-            </Select>
+            <Tooltip title="tooltip">
+              <Select value={sorting} onChange={event => onChangeSorting(event.target.value)}>
+                <MenuItem value="price:desc">{t('sortings:Expensive-first')}</MenuItem>
+                <MenuItem value="price:asc">{t('sortings:Cheap-first')}</MenuItem>
+              </Select>
+            </Tooltip>
             {/* <Button variant="contained" onClick={openFilters}>
               Filters
             </Button> */}
