@@ -44,6 +44,7 @@ const IdPage = () => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { isValid, isSubmitting: isPostingReview },
   } = useForm({
     resolver: yupResolver(createProductReviewSchema),
@@ -77,6 +78,7 @@ const IdPage = () => {
     onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ['reviews', id] });
       queryClient.invalidateQueries({ queryKey: ['accessory', id] });
+      reset();
     },
   });
 
