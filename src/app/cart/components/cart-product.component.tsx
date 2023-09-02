@@ -1,5 +1,5 @@
 import { Box, Skeleton, Stack, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import NumericStepper from 'components/numeric-stepper.component';
 
@@ -20,11 +20,23 @@ const CartProduct: React.FC<CartProductProps> = ({
   amount,
   onChange = () => {},
 }) => {
-  const productTotal = unitPrice * amount;
+  const [productTotal, setProductTotal] = useState(unitPrice * amount);
+  const [productAmount, setProductAmount] = useState(amount);
 
   const onChangeAmount = (newAmount: number) => {
+    setProductTotal(newAmount * unitPrice);
+    setProductAmount(newAmount);
     onChange(id, newAmount);
   };
+
+  useEffect(() => {
+    setProductAmount(amount);
+    setProductTotal(unitPrice * amount);
+  }, [unitPrice, amount]);
+
+  if (productAmount <= 0) {
+    return null;
+  }
 
   return (
     <Stack display="flex" direction="row" gap={theme => theme.spacing(3)} alignItems="center">
@@ -39,7 +51,7 @@ const CartProduct: React.FC<CartProductProps> = ({
           <Typography margin={0}>${unitPrice}</Typography>
 
           <Box display="flex" justifyContent="flex-start">
-            <NumericStepper value={amount} onChange={onChangeAmount} size="small" />
+            <NumericStepper value={productAmount} onChange={onChangeAmount} size="small" />
           </Box>
         </Stack>
       </Box>
