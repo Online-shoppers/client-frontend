@@ -17,6 +17,7 @@ const CartPage = () => {
   const queryClient = useQueryClient();
 
   const cartInfoQuery = useQuery({
+    refetchOnMount: true,
     queryKey: ['cart-info'],
     queryFn: async () => {
       const response = await getCartInfo();
@@ -25,6 +26,7 @@ const CartPage = () => {
   });
 
   const cartProductsQuery = useQuery({
+    refetchOnMount: true,
     queryKey: ['cart-products'],
     queryFn: async () => {
       const response = await getCartProducts();
@@ -40,6 +42,7 @@ const CartPage = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cart-products'] });
       queryClient.invalidateQueries({ queryKey: ['cart-info'] });
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
     },
   });
 
