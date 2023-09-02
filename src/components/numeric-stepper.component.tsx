@@ -1,7 +1,7 @@
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { Grid, IconButton, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface NumericStepperProps {
   value?: number;
@@ -41,6 +41,10 @@ const NumericStepper: React.FC<NumericStepperProps> = ({
   const getIncreasedValue = (current: number) => Math.min(current + 1, max || Infinity);
 
   const getDecreasedValue = (current: number) => Math.max(current - 1, min || -Infinity);
+
+  useEffect(() => {
+    setCount(value);
+  }, [value]);
 
   return (
     <Grid
