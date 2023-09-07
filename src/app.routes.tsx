@@ -11,6 +11,7 @@ import BeerRoutes from 'app/beer/routes';
 import CartRoutes from 'app/cart/routes';
 import HistoryRoutes from 'app/history/routes';
 import OrderRoutes from 'app/order/routes';
+import ResetPasswordRoutes from 'app/reset-password/routes';
 import SnackRoutes from 'app/snack/routes';
 
 const HomePage = React.lazy(() => import('./app/home/home.page'));
@@ -32,6 +33,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/auth/*" element={<AuthRoutes />} />
+      <Route path="/reset-password/*" element={<ResetPasswordRoutes />} />
 
       <Route path="/" element={<HomePage />} />
       <Route path="/beer/*" element={<BeerRoutes />} />
