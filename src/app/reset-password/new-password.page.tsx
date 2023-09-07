@@ -2,34 +2,23 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Button from '@mui/lab/LoadingButton';
 import {
   Alert,
+  Box,
+  Container,
   FormControl,
   FormHelperText,
-  FormLabel,
-  Link as MuiLink,
   Snackbar,
+  TextField,
 } from '@mui/material';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
-import jwt_decode from 'jwt-decode';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { NavLink as RouterLink } from 'react-router-dom';
-
-import storage from 'storage/client';
-
-import { useAppDispatch } from 'store';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import { getErrorMessages } from 'utils/get-error-messages.util';
 
-import { signIn } from './api/sign-in.api';
-import { ACCESS_TOKEN_KEY, EXPIRATION_DATE_KEY, REFRESH_TOKEN_KEY } from './constants';
-import { signInSchema } from './schemas/sign-in.schema';
-import { UserSessionSchema } from './schemas/user-session.schema';
-import { authenticate } from './store/auth.slice';
+import { changePassword } from './api/change-password.api';
+import { newPasswordSchema } from './schemas/new-password.schema';
 
 const useStyles = makeStyles(() => ({
   parent: {
@@ -49,10 +38,13 @@ const useStyles = makeStyles(() => ({
   form: { display: 'flex', flexDirection: 'column', gap: '0.5rem', width: '100%' },
 }));
 
-const SignIn = () => {
-  const { t } = useTranslation('auth');
+const NewPassword = () => {
+  const { resetToken } = useParams();
+  const classes = useStyles();
 
-  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const { t } = useTranslation('auth');
 
   const {
     handleSubmit,
@@ -60,13 +52,11 @@ const SignIn = () => {
     formState: { isValid },
   } = useForm({
     defaultValues: {
-      email: '',
       password: '',
+      passwordConfirm: '',
     },
-    resolver: yupResolver(signInSchema),
+    resolver: yupResolver(newPasswordSchema),
   });
-
-  const classes = useStyles();
 
   const [loading, setLoading] = useState(false);
   const [alertText, setAlertText] = useState('');
@@ -76,19 +66,16 @@ const SignIn = () => {
     setAlertOpen(false);
   };
 
-  const handleSignIn = handleSubmit(async form => {
+  if (!resetToken) {
+    return <Navigate to="./.." replace />;
+  }
+
+  const handleChangePassword = handleSubmit(async form => {
     try {
       setLoading(true);
-      const { data } = await signIn(form);
+      await changePassword(resetToken, form.password);
 
-      const payload = jwt_decode(data.access_token);
-      const session = UserSessionSchema.validateSync(payload);
-
-      storage.set(ACCESS_TOKEN_KEY, data.access_token);
-      storage.set(REFRESH_TOKEN_KEY, data.refresh_token);
-      storage.set(EXPIRATION_DATE_KEY, session.exp);
-
-      dispatch(authenticate(session));
+      navigate('/auth/sign-in', { replace: true });
     } catch (err) {
       console.error(err);
 
@@ -104,28 +91,7 @@ const SignIn = () => {
   return (
     <Container maxWidth="xs" className={classes.parent}>
       <Box className={classes.box} gap={3}>
-        <Typography component="h1" variant="h5">
-          {t('Sign-in')}
-        </Typography>
-        <Box component="form" onSubmit={handleSignIn} className={classes.form}>
-          <Controller
-            name="email"
-            render={({ field, fieldState: { error } }) => (
-              <FormControl fullWidth>
-                <TextField
-                  {...field}
-                  error={!!error}
-                  margin="dense"
-                  required
-                  fullWidth
-                  label={t('Email')}
-                  autoComplete="email"
-                />
-                {error ? <FormHelperText error={!!error}>{error.message}</FormHelperText> : null}
-              </FormControl>
-            )}
-            control={control}
-          />
+        <Box component="form" className={classes.form} onSubmit={handleChangePassword}>
           <Controller
             name="password"
             render={({ field, fieldState: { error } }) => (
@@ -136,22 +102,33 @@ const SignIn = () => {
                   margin="dense"
                   required
                   fullWidth
-                  name="password"
                   label={t('Password')}
                   type="password"
-                  autoComplete="password"
                 />
                 {error ? <FormHelperText error={!!error}>{error.message}</FormHelperText> : null}
               </FormControl>
             )}
             control={control}
           />
-          <FormLabel>
-            {t('Forgot-password?')}{' '}
-            <MuiLink component={RouterLink} to="/reset-password">
-              {t('Reset-password')}
-            </MuiLink>
-          </FormLabel>
+          <Controller
+            name="passwordConfirm"
+            render={({ field, fieldState: { error } }) => (
+              <FormControl fullWidth>
+                <TextField
+                  {...field}
+                  error={!!error}
+                  margin="dense"
+                  required
+                  fullWidth
+                  name="password"
+                  label={t('Confirm-password')}
+                  type="password"
+                />
+                {error ? <FormHelperText error={!!error}>{error.message}</FormHelperText> : null}
+              </FormControl>
+            )}
+            control={control}
+          />
           <button hidden type="submit" />
         </Box>
         <Box display="flex" flexDirection="column" width="100%" gap={1}>
@@ -159,18 +136,12 @@ const SignIn = () => {
             type="submit"
             fullWidth
             variant="contained"
-            onClick={handleSignIn}
+            onClick={handleChangePassword}
             disabled={!isValid}
             loading={loading}
           >
-            {t('Do-sign-in')}
+            {t('Change-password')}
           </Button>
-          <Typography variant="subtitle1">
-            {t("Don't-have-an-account?")}{' '}
-            <MuiLink component={RouterLink} to="/auth/sign-up">
-              {t('Do-sign-up')}
-            </MuiLink>
-          </Typography>
         </Box>
       </Box>
       <Snackbar
@@ -187,4 +158,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default NewPassword;

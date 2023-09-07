@@ -2,15 +2,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Button from '@mui/lab/LoadingButton';
 import { Alert, Container, Snackbar, Stack, Typography } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { isAxiosError } from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { getCartProducts } from 'app/cart/api/get-cart-products.api';
-import { getCart } from 'app/cart/api/get-cart.api';
 
-import { DefaultError } from 'errors/default.error';
+import { getErrorMessages } from 'utils/get-error-messages.util';
 
 import { createOrder } from './api/create-order.api';
 import CreateOrderForm from './components/create-order.form';
@@ -74,13 +72,10 @@ const CreateOrderPage = () => {
     } catch (err) {
       console.error(err);
 
-      if (isAxiosError<DefaultError>(err)) {
-        setIsError(true);
-        setErrorMessage(err.response?.data.message || err.message);
-      } else {
-        setIsError(true);
-        setErrorMessage(t('errors:Something-went-wrong'));
-      }
+      const messages = getErrorMessages(err);
+      const text = messages ? messages[0] : t('errors:Something-went-wrong');
+      setIsError(true);
+      setErrorMessage(text);
     }
   });
 
