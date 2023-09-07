@@ -1,9 +1,6 @@
 import { Stack } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 import { Container } from '@mui/system';
 import { useQuery } from '@tanstack/react-query';
-import { DEFAULT_DATE_FORMAT } from 'dates/formats';
-import dayjs from 'dayjs';
 import React from 'react';
 
 import { getUserOrders } from 'app/order/api/get-user-orders.api';

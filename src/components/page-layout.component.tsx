@@ -21,9 +21,8 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { NavLink as RouterLink } from 'react-router-dom';
 
-import { getIsAuthenticated } from 'app/auth/store/auth.selectors';
-import { getCart } from 'app/cart/api/get-cart.api';
-
+import { getIsAuthenticated } from '../app/auth/store/auth.selectors';
+import { getCart } from '../app/cart/api/get-cart.api';
 import SearchList from './search-list.component';
 import UserMenu from './user-menu.component';
 

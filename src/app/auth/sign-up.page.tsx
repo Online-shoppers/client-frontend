@@ -6,18 +6,17 @@ import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
-import { isAxiosError } from 'axios';
 import jwt_decode from 'jwt-decode';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { NavLink as RouterLink } from 'react-router-dom';
 
-import { DefaultError } from 'errors/default.error';
-
 import storage from 'storage/client';
 
 import { useAppDispatch } from 'store';
+
+import { getErrorMessages } from 'utils/get-error-messages.util';
 
 import { signUp } from './api/sign-up.api';
 import { ACCESS_TOKEN_KEY, EXPIRATION_DATE_KEY, REFRESH_TOKEN_KEY } from './constants';
@@ -89,13 +88,10 @@ const SignUp = () => {
     } catch (err) {
       console.error(err);
 
-      if (isAxiosError<DefaultError>(err)) {
-        setAlertOpen(true);
-        setAlertText(err.response?.data.message || err.message);
-      } else {
-        setAlertOpen(true);
-        setAlertText(t('errors:Something-went-wrong'));
-      }
+      const messages = getErrorMessages(err);
+      const text = messages ? messages[0] : t('errors:Something-went-wrong');
+      setAlertOpen(true);
+      setAlertText(text);
     } finally {
       setLoading(false);
     }

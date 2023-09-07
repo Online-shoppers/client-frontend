@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { isAxiosError } from 'axios';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -22,7 +21,7 @@ import { CreateProductReviewForm } from 'app/product/types/create-product-review
 
 import NumericStepper from 'components/numeric-stepper.component';
 
-import { DefaultError } from 'errors/default.error';
+import { getErrorMessages } from 'utils/get-error-messages.util';
 
 import { getBeerById } from './api/get-beer-by-id.api';
 
@@ -105,13 +104,10 @@ const IdPage = () => {
     } catch (err) {
       console.error(err);
 
-      if (isAxiosError<DefaultError>(err)) {
-        setIsError(true);
-        setErrorMessage(err.response?.data.message || err.message);
-      } else {
-        setIsError(true);
-        setErrorMessage(t('errors:Something-went-wrong'));
-      }
+      const messages = getErrorMessages(err);
+      const text = messages ? messages[0] : t('errors:Something-went-wrong');
+      setIsError(true);
+      setErrorMessage(text);
     }
   });
 
@@ -132,13 +128,10 @@ const IdPage = () => {
     } catch (err) {
       console.error(err);
 
-      if (isAxiosError<DefaultError>(err)) {
-        setIsError(true);
-        setErrorMessage(err.response?.data.message || err.message);
-      } else {
-        setIsError(true);
-        setErrorMessage(t('errors:Something-went-wrong'));
-      }
+      const messages = getErrorMessages(err);
+      const text = messages ? messages[0] : t('errors:Something-went-wrong');
+      setIsError(true);
+      setErrorMessage(text);
     }
   };
 

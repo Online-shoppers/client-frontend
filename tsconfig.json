@@ -4,6 +4,7 @@
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+    "types": ["node", "jest", "@testing-library/jest-dom"],
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -17,5 +18,10 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src"]
+  "include": [
+    "jest-setup.ts",
+    "src",
+    "jest.config.js",
+    "../ams_llc-ddd-tpl-react-f5cf9b631f0f/src/app/my strange files/animations.tsx"
+  ]
 }
