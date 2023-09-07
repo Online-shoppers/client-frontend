@@ -2,8 +2,7 @@ import { Box, Stack, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import { useTranslation } from 'react-i18next';
 
-import PageLayout from 'components/page-layout.component';
-
+import PageLayout from '../../components/page-layout.component';
 import CategoryCard from './components/category-card.component';
 
 const HomePage = () => {
