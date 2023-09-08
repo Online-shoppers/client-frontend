@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-undef
 module.exports = {
   moduleFileExtensions: ['js', 'json', 'ts', 'tsx'],
+  setupFilesAfterEnv: ['<rootDir>/setupTests.ts'],
   rootDir: 'src',
   testRegex: ['.*\\.test\\.ts$', '.*\\.test\\.tsx$'],
   transform: {
