@@ -46,7 +46,7 @@ const IdPage = () => {
     reset,
     formState: { isValid, isSubmitting: isPostingReview },
   } = useForm({
-    // resolver: yupResolver(createProductReviewSchema),
+    resolver: yupResolver(createProductReviewSchema),
     defaultValues: {
       text: '',
       rating: 0,
