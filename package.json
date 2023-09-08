@@ -97,7 +97,7 @@
       ".*\\.test\\.tsx$"
     ],
     "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
+      "\\.[jt]sx?$": "ts-jest"
     },
     "collectCoverageFrom": [
       "**/*.(t|j)s",
