@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-undef
 module.exports = {
   moduleFileExtensions: ['js', 'json', 'ts', 'tsx'],
+  setupFilesAfterEnv: ['<rootDir>/setupTests.ts'],
   rootDir: 'src',
   testRegex: ['.*\\.test\\.ts$', '.*\\.test\\.tsx$'],
   transform: {
@@ -12,7 +13,21 @@ module.exports = {
     '!**/node_modules/**',
     '!**/coverage/**',
   ],
-  coveragePathIgnorePatterns: [],
+  coveragePathIgnorePatterns: [
+    '<rootDir>/themes.ts',
+    '<rootDir>/types/.*',
+    '/jest.config.js',
+    '<rootDir>/index.tsx',
+    '<rootDir>/app.tsx',
+    '.eslintrc.js',
+    '<rootDir>/components/error-boundary.component.tsx',
+    '<rootDir>/react-app-env.d.ts',
+    '<rootDir>/store.ts',
+    '<rootDir>/reportWebVitals.ts',
+    '<rootDir>/service-worker.ts',
+    '<rootDir>/storage/client.ts',
+    '<rootDir>/dates/formats.ts',
+  ],
   coverageDirectory: '../coverage',
   testEnvironment: 'jsdom',
   moduleNameMapper: {

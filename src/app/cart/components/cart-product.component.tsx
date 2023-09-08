@@ -51,7 +51,12 @@ const CartProduct: React.FC<CartProductProps> = ({
           <Typography margin={0}>${unitPrice}</Typography>
 
           <Box display="flex" justifyContent="flex-start">
-            <NumericStepper value={productAmount} onChange={onChangeAmount} size="small" />
+            <NumericStepper
+              data-testid="numeric-stepper"
+              value={productAmount}
+              onChange={onChangeAmount}
+              size="small"
+            />
           </Box>
         </Stack>
       </Box>
