@@ -6979,7 +6979,7 @@ jest-environment-jsdom@^27.5.1:
 
 jest-environment-jsdom@^29.6.4:
   version "29.6.4"
-  resolved "https://registry.npmjs.org/jest-environment-jsdom/-/jest-environment-jsdom-29.6.4.tgz#0daf44454041f9e1ef7fa82eb1bd43426a82eb1c"
+  resolved "https://registry.yarnpkg.com/jest-environment-jsdom/-/jest-environment-jsdom-29.6.4.tgz#0daf44454041f9e1ef7fa82eb1bd43426a82eb1c"
   integrity sha512-K6wfgUJ16DoMs02JYFid9lOsqfpoVtyJxpRlnTxUHzvZWBnnh2VNGRB9EC1Cro96TQdq5TtSjb3qUjNaJP9IyA==
   dependencies:
     "@jest/environment" "^29.6.4"
@@ -10838,7 +10838,7 @@ ts-interface-checker@^0.1.9:
 
 ts-jest@^29.1.1:
   version "29.1.1"
-  resolved "https://registry.npmjs.org/ts-jest/-/ts-jest-29.1.1.tgz#f58fe62c63caf7bfcc5cc6472082f79180f0815b"
+  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-29.1.1.tgz#f58fe62c63caf7bfcc5cc6472082f79180f0815b"
   integrity sha512-D6xjnnbP17cC85nliwGiL+tpoKN0StpgE0TeOjXQTU6MVCfsB4v7aW05CgQ/1OywGb0x/oy9hHFnN+sczTiRaA==
   dependencies:
     bs-logger "0.x"

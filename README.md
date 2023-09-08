@@ -36,3 +36,52 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+// Old jest config
+
+// eslint-disable-next-line no-undef
+module.exports = {
+preset: 'ts-jest',
+testEnvironment: 'jsdom',
+setupFilesAfterEnv: ['<rootDir>/setupTests.ts'],
+collectCoverageFrom: [
+'**/*.{js,jsx,ts,tsx}',
+'!**/*.test.{js,jsx,ts,tsx}',
+'!**/node_modules/**',
+'!**/coverage/**',
+],
+coveragePathIgnorePatterns: [
+'<rootDir>/src/themes.ts',
+'<rootDir>/src/types/.*',
+'/jest.config.js',
+'./src/index.tsx',
+'.eslintrc.js',
+'<rootDir>/src/componets/error-bounadry/error-boundary.comp.tsx',
+'<rootDir>/src/react-app-env.d.ts',
+],
+moduleNameMapper: {
+'^src/(._)$': '<rootDir>/$1',
+},
+moduleDirectories: ['node_modules'],
+rootDir: 'src',
+coverageThreshold: {
+global: {
+branches: 80,
+functions: 80,
+lines: 80,
+statements: 80,
+},
+'src/app/hooks/\*\*/_.{js,jsx,ts,tsx}': {
+branches: 100,
+functions: 100,
+lines: 100,
+statements: 100,
+},
+'src/app/custom-hooks/\*_/_.{js,jsx,ts,tsx}': {
+branches: 100,
+functions: 100,
+lines: 100,
+statements: 100,
+},
+},
+};
