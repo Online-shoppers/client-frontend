@@ -7,24 +7,24 @@ import { ProductCategories } from 'app/product/enums/product-categories.enum';
 
 import store from 'store';
 
-import { getPageSnacks } from './api/get-page-snacks.api';
-import { SnackTypes } from './enums/snack-types.enum';
+import { getPageAccessories } from './api/get-page-accessories.api';
+import { AccessoryTypes } from './enums/accessory-types.enum';
 import ListPage from './list.page';
-import { Snack } from './types/snack.type';
+import { Accessory } from './types/accessory.type';
 
-const mockSnacks: Snack[] = [
+const mockAccessories: Accessory[] = [
   {
     id: 'id1',
     created: 1000,
     updated: 1000,
-    type: SnackTypes.NACHOS,
+    type: AccessoryTypes.BOTTLE_OPENER,
     name: 'Hello',
-    description: 'Very yummy snack',
+    description: 'Very convenient opener',
     price: 100,
     weight: 100,
     rating: 0,
     archived: false,
-    category: ProductCategories.SNACKS,
+    category: ProductCategories.ACCESSORIES,
     quantity: 1000,
     image_url: 'https://google.com',
     reviews_amount: 0,
@@ -33,14 +33,14 @@ const mockSnacks: Snack[] = [
     id: 'id2',
     created: 1000,
     updated: 1000,
-    type: SnackTypes.NACHOS,
+    type: AccessoryTypes.BOTTLE_OPENER,
     name: 'Hello',
-    description: 'Very yummy snack',
+    description: 'Very convenient opener',
     weight: 100,
     price: 100,
     rating: 0,
     archived: false,
-    category: ProductCategories.SNACKS,
+    category: ProductCategories.ACCESSORIES,
     quantity: 1000,
     image_url: 'https://google.com',
     reviews_amount: 0,
@@ -49,27 +49,27 @@ const mockSnacks: Snack[] = [
     id: 'id3',
     created: 1000,
     updated: 1000,
-    type: SnackTypes.NACHOS,
+    type: AccessoryTypes.BOTTLE_OPENER,
     name: 'Hello',
-    description: 'Very yummy snack',
+    description: 'Very convenient opener',
     price: 100,
     weight: 100,
     rating: 0,
     archived: false,
-    category: ProductCategories.SNACKS,
+    category: ProductCategories.ACCESSORIES,
     quantity: 1000,
     image_url: 'https://google.com',
     reviews_amount: 0,
   },
 ];
 
-const pageSnacksResponse = {
-  info: { total: mockSnacks.length },
-  items: mockSnacks,
+const pageAccessoriesResponse = {
+  info: { total: mockAccessories.length },
+  items: mockAccessories,
 };
 
-jest.mock('./api/get-page-snacks.api', () => ({
-  getPageSnacks: jest.fn(() => Promise.resolve({ data: pageSnacksResponse })),
+jest.mock('./api/get-page-accessories.api', () => ({
+  getPageAccessories: jest.fn(() => Promise.resolve({ data: pageAccessoriesResponse })),
 }));
 
 jest.mock('react-i18next', () => ({
@@ -87,7 +87,7 @@ jest.mock('react-i18next', () => ({
   },
 }));
 
-describe('Snack list', () => {
+describe('Accessories list page', () => {
   let queryClient: QueryClient;
 
   beforeEach(() => {
@@ -100,8 +100,8 @@ describe('Snack list', () => {
   });
 
   it('should have proper data', async () => {
-    const data = await getPageSnacks('price:asc', 1, 20);
-    expect(data).toStrictEqual({ data: pageSnacksResponse });
+    const data = await getPageAccessories('price:asc', 1, 20);
+    expect(data).toStrictEqual({ data: pageAccessoriesResponse });
   });
 
   it('should render skeletons while loading', async () => {
@@ -137,7 +137,7 @@ describe('Snack list', () => {
     await waitFor(() => {
       const productElements = getAllByTestId('product-card');
 
-      expect(productElements).toHaveLength(mockSnacks.length);
+      expect(productElements).toHaveLength(mockAccessories.length);
     });
   });
 });

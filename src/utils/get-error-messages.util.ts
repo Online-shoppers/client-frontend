@@ -4,7 +4,7 @@ import { isAxiosError } from 'axios';
 export const getErrorMessages = (error: any): string[] | null | undefined => {
   if (!isAxiosError(error)) {
     const message = error.message;
-    return message && typeof message === 'string' ? [message] : null;
+    return message ? [String(message)] : null;
   }
 
   const errors = error.response?.data.errors;

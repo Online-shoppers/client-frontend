@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Skeleton } from '@mui/material';
 import { fireEvent, render } from '@testing-library/react';
-import React from 'react';
 import { BrowserRouter, useNavigate } from 'react-router-dom';
 
 import ProductCard, { ProductCardSkeleton } from './product-card.component';
