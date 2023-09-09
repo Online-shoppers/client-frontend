@@ -96,7 +96,7 @@ jest.mock('react-i18next', () => ({
   },
 }));
 
-describe('BeerIdPage', () => {
+describe('Beer list', () => {
   let queryClient: QueryClient;
 
   beforeEach(() => {
