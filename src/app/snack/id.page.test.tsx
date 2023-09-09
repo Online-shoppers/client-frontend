@@ -9,26 +9,23 @@ import { ProductReview } from 'app/product/types/product-review.type';
 
 import store from 'store';
 
-import { getBeerById } from './api/get-beer-by-id.api';
-import { BeerTypes } from './enums/beer-type.enum';
+import { getSnackById } from './api/get-snack-by-id.api';
+import { SnackTypes } from './enums/snack-types.enum';
 import IdPage from './id.page';
-import { Beer } from './types/beer.type';
+import { Snack } from './types/snack.type';
 
-const mockBeer: Beer = {
+const mockSnack: Snack = {
   id: 'id',
-  type: BeerTypes.ALE,
-  abv: 0,
-  name: 'Hello',
-  description: 'Very yummy beer',
-  ibu: 0,
-  price: 100,
-  rating: 0,
-  volume: 1,
-  country: 'Belarus',
   created: 1000,
   updated: 1000,
+  type: SnackTypes.NACHOS,
+  name: 'Hello',
+  description: 'Very yummy snack',
+  weight: 100,
+  price: 100,
+  rating: 0,
   archived: false,
-  category: ProductCategories.BEER,
+  category: ProductCategories.SNACKS,
   quantity: 1000,
   image_url: 'https://google.com',
   reviews_amount: 0,
@@ -59,8 +56,8 @@ const mockReviews: ProductReview[] = [
   },
 ];
 
-jest.mock('./api/get-beer-by-id.api', () => ({
-  getBeerById: jest.fn(() => Promise.resolve({ data: mockBeer })),
+jest.mock('./api/get-snack-by-id.api', () => ({
+  getSnackById: jest.fn(() => Promise.resolve({ data: mockSnack })),
 }));
 
 jest.mock('app/product/api/get-product-reviews.api', () => ({
@@ -90,7 +87,7 @@ jest.mock('react-i18next', () => ({
   },
 }));
 
-describe('BeerIdPage', () => {
+describe('SnackIdPage', () => {
   let queryClient: QueryClient;
 
   beforeEach(() => {
@@ -103,8 +100,8 @@ describe('BeerIdPage', () => {
   });
 
   it('should have proper data', async () => {
-    const data = await getBeerById(mockBeer.id);
-    expect(data).toStrictEqual({ data: mockBeer });
+    const data = await getSnackById(mockSnack.id);
+    expect(data).toStrictEqual({ data: mockSnack });
   });
 
   it('should render skeletons while loading', async () => {
@@ -121,7 +118,7 @@ describe('BeerIdPage', () => {
     );
 
     await waitFor(() => {
-      const skeletonElement = getByTestId('beer-id-info-skeleton');
+      const skeletonElement = getByTestId('snack-id-info-skeleton');
       expect(skeletonElement).toBeInTheDocument();
     });
   });
@@ -140,9 +137,9 @@ describe('BeerIdPage', () => {
     );
 
     await waitFor(() => {
-      const name = getByText(mockBeer.name);
-      const description = getByText(mockBeer.description);
-      const price = getByText('$' + mockBeer.price);
+      const name = getByText(mockSnack.name);
+      const description = getByText(mockSnack.description);
+      const price = getByText('$' + mockSnack.price);
       expect(name).toBeInTheDocument();
       expect(description).toBeInTheDocument();
       expect(price).toBeInTheDocument();

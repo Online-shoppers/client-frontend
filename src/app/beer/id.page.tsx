@@ -292,7 +292,7 @@ const BeerInfoSkeleton = () => {
       display="flex"
       direction="row"
       gap={theme => theme.spacing(5)}
-      data-testid="beer-id-skeleton"
+      data-testid="beer-id-info-skeleton"
     >
       <Box flex={3}>
         <Skeleton variant="rectangular" width="100%" sx={{ minHeight: '500px' }} />
