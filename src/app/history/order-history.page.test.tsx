@@ -1,50 +1,70 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render, screen } from '@testing-library/react';
-import React from 'react';
+import { render, waitFor } from '@testing-library/react';
+
+import { OrderType } from 'app/order/types/order.type';
 
 import OrderHistoryPage from './order-history.page';
 
+const mockOrder: OrderType = {
+  id: 'asdf',
+  city: 'Minsk',
+  phone: '1234',
+  total: 100,
+  status: 'pending',
+  address: 'Minsk',
+  buyerId: '1234',
+  country: 'Belarus',
+  created: 12345,
+  updated: 12345,
+  zipCode: '1234',
+  products: [],
+};
+
 jest.mock('app/order/api/get-user-orders.api', () => ({
-  getUserOrders: jest.fn(() => Promise.resolve({ data: [] })),
+  getUserOrders: jest.fn(() => Promise.resolve({ data: [mockOrder] })),
+}));
+
+jest.mock('react-i18next', () => ({
+  useTranslation: () => {
+    return {
+      t: (key: string) => key,
+      i18n: {
+        changeLanguage: () => new Promise(() => {}),
+      },
+    };
+  },
+}));
+
+const queryClient = new QueryClient();
+
+jest.mock('app/order/api/get-user-orders.api', () => ({
+  getUserOrders: jest.fn(() => Promise.resolve({ data: [mockOrder] })),
 }));
 
 describe('OrderHistoryPage', () => {
-  let queryClient: QueryClient;
-
-  beforeEach(() => {
-    queryClient = new QueryClient();
-  });
-
-  it('renders loading state', async () => {
-    render(
+  it('renders loading skeleton when data is not available', async () => {
+    const { getAllByTestId } = render(
       <QueryClientProvider client={queryClient}>
         <OrderHistoryPage />
       </QueryClientProvider>,
     );
 
-    const loadingSkeletons = screen.getAllByTestId('previous-order-skeleton');
-    expect(loadingSkeletons).toHaveLength(5);
+    const skeletonElements = getAllByTestId('previous-order-skeleton');
+    expect(skeletonElements.length).toBe(5);
   });
 
-  it('renders order data', async () => {
-    const mockData = [{ id: 1 }, { id: 2 }];
+  it('renders orders when data is available', async () => {
+    // jest.spyOn(queryClient, 'getQueryData').mockReturnValueOnce([{ id: 1 }, { id: 2 }]);
 
-    const mockResponse = new Response(JSON.stringify(mockData), {
-      status: 200,
-      headers: { 'Content-type': 'application/json' },
+    const { getAllByTestId } = render(
+      <QueryClientProvider client={queryClient}>
+        <OrderHistoryPage />
+      </QueryClientProvider>,
+    );
+
+    await waitFor(() => {
+      const orderElements = getAllByTestId('previous-order');
+      expect(orderElements.length).toBe(1);
     });
-
-    global.fetch = jest.fn().mockResolvedValue(mockResponse);
-
-    render(
-      <QueryClientProvider client={queryClient}>
-        <OrderHistoryPage />
-      </QueryClientProvider>,
-    );
-
-    const orderComponents = await screen.findAllByTestId('previous-order');
-    expect(orderComponents).toHaveLength(mockData.length);
-
-    global.fetch = jest.requireActual('node-fetch');
   });
 });

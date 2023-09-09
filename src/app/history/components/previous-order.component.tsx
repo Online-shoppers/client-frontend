@@ -29,7 +29,7 @@ const PreviousOrder: React.FC<PreviousOrderProps> = ({ order }) => {
   const { t } = useTranslation();
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} data-testid="previous-order" spellCheck>
       <Stack gap="1rem" direction="column">
         <Stack>
           <Stack direction="row" justifyContent="space-between">
@@ -79,7 +79,7 @@ export const PreviousOrderSkeleton = () => {
   const items = Array(amount).fill(true);
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} data-testid="previous-order-skeleton">
       <Stack gap="1rem" direction="column">
         <Stack>
           <Skeleton variant="text" />
