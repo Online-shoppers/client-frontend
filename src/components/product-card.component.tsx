@@ -35,7 +35,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ title, price, rating, imageUr
   };
 
   return (
-    <Paper className={classes.parent} onClick={openProductPage}>
+    <Paper className={classes.parent} onClick={openProductPage} data-testid="product-card">
       <Stack direction="column">
         <img src={imageUrl} alt={title} className={classes.image} />
         <Box
@@ -67,7 +67,7 @@ export const ProductCardSkeleton = () => {
   const height = generateHeight();
 
   return (
-    <Paper>
+    <Paper data-testid="product-card-skeleton">
       <Stack direction="column">
         <Skeleton className={classes.image} variant="rectangular" height={height} />
         <Box
