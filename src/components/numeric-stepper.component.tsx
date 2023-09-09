@@ -55,7 +55,7 @@ const NumericStepper: React.FC<NumericStepperProps> = ({
       width="auto"
     >
       <Grid item>
-        <IconButton color={color} size={size} onClick={decrease}>
+        <IconButton data-testid="decrease-button" color={color} size={size} onClick={decrease}>
           <RemoveIcon />
         </IconButton>
       </Grid>
@@ -63,7 +63,7 @@ const NumericStepper: React.FC<NumericStepperProps> = ({
         <Typography variant="button">{count}</Typography>
       </Grid>
       <Grid item>
-        <IconButton color={color} size={size} onClick={increase}>
+        <IconButton data-testid="increase-button" color={color} size={size} onClick={increase}>
           <AddIcon />
         </IconButton>
       </Grid>
