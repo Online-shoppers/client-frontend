@@ -85,7 +85,12 @@ const ResetPassword = () => {
   return (
     <Container maxWidth="xs" className={classes.parent}>
       <Box className={classes.box} gap={3}>
-        <Box component="form" className={classes.form} onSubmit={handleResetPassword}>
+        <Box
+          component="form"
+          className={classes.form}
+          onSubmit={handleResetPassword}
+          data-testid="form"
+        >
           <Controller
             name="email"
             render={({ field, fieldState: { error } }) => (
@@ -98,13 +103,14 @@ const ResetPassword = () => {
                   fullWidth
                   label={t('Email')}
                   autoComplete="email"
+                  inputProps={{ 'data-testid': 'reset-email-input' }}
                 />
                 {error ? <FormHelperText error={!!error}>{t(error.message)}</FormHelperText> : null}
               </FormControl>
             )}
             control={control}
           />
-          <button hidden type="submit" disabled={!isValid} />
+          <button hidden type="submit" disabled={!isValid} data-testid="submit-button" />
         </Box>
         <Box display="flex" flexDirection="column" width="100%" gap={1}>
           <Button
