@@ -13,16 +13,13 @@ import { theme } from 'theme';
 import HomePage from './home.page';
 
 const axios = {
-  // Mock Axios interceptors
   interceptors: {
     request: {
       use: jest.fn(),
     },
   },
-  // Mock Axios methods or other properties you use
   get: jest.fn(),
   post: jest.fn(),
-  // Add any other Axios methods you use in your code
 };
 
 const queryClient = new QueryClient({
@@ -43,7 +40,6 @@ describe('HomePage', () => {
       </BrowserRouter>,
     );
 
-    // Wait for the element to appear
     await waitFor(() => {
       const welcomeMessage = getByText('Yummy beer');
       expect(welcomeMessage).toBeInTheDocument();

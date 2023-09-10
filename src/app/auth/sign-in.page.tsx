@@ -107,7 +107,7 @@ const SignIn = () => {
         <Typography component="h1" variant="h5">
           {t('Sign-in')}
         </Typography>
-        <Box component="form" onSubmit={handleSignIn} className={classes.form}>
+        <Box component="form" onSubmit={handleSignIn} className={classes.form} data-testid="form">
           <Controller
             name="email"
             render={({ field, fieldState: { error } }) => (
@@ -120,8 +120,9 @@ const SignIn = () => {
                   fullWidth
                   label={t('Email')}
                   autoComplete="email"
+                  inputProps={{ 'data-testid': 'email-input' }}
                 />
-                {error ? <FormHelperText error={!!error}>{error.message}</FormHelperText> : null}
+                {error ? <FormHelperText error={!!error}>{t(error.message)}</FormHelperText> : null}
               </FormControl>
             )}
             control={control}
@@ -140,8 +141,9 @@ const SignIn = () => {
                   label={t('Password')}
                   type="password"
                   autoComplete="password"
+                  inputProps={{ 'data-testid': 'password-input' }}
                 />
-                {error ? <FormHelperText error={!!error}>{error.message}</FormHelperText> : null}
+                {error ? <FormHelperText error={!!error}>{t(error.message)}</FormHelperText> : null}
               </FormControl>
             )}
             control={control}

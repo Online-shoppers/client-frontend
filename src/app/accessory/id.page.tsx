@@ -144,66 +144,48 @@ const IdPage = () => {
 
   return (
     <Container>
-      <Stack direction="column" gap="2rem">
-        <Stack display="flex" direction="row" gap={theme => theme.spacing(5)}>
-          <Box flex={3}>
-            {data?.image_url ? (
+      <Stack direction="column" gap="2rem" data-testid="accessory-id-info">
+        {data ? (
+          <Stack display="flex" direction="row" gap={theme => theme.spacing(5)}>
+            <Box flex={3}>
               <img src={data.image_url} alt="Accessory" width="100%" />
-            ) : (
-              <Skeleton variant="rectangular" width="100%" sx={{ minHeight: '500px' }} />
-            )}
-          </Box>
-          <Box flex={4}>
-            <Stack gap={theme => theme.spacing(1)}>
-              <Typography variant="h4" component="h1">
-                {data?.name ? data.name : <Skeleton width="100%" />}
-              </Typography>
-              <Typography paragraph margin={0}>
-                {data?.description ? (
-                  data.description
-                ) : (
-                  <React.Fragment>
-                    <Skeleton width="100%" />
-                    <Skeleton width="100%" />
-                    <Skeleton width="100%" />
-                    <Skeleton width="100%" />
-                    <Skeleton width="100%" />
-                  </React.Fragment>
-                )}
-              </Typography>
-              <Typography paragraph margin={0}>
-                {typeof data?.price === 'number' ? '$' + data.price : <Skeleton width={40} />}
-              </Typography>
-              <Box display="flex" alignItems="center" gap="1rem">
-                {typeof data?.rating === 'number' ? (
-                  <Rating value={data?.rating} precision={0.5} readOnly />
-                ) : (
-                  <Skeleton width="25%" />
-                )}
-                {typeof data?.reviews_amount === 'number' ? (
+            </Box>
+            <Box flex={4}>
+              <Stack gap={theme => theme.spacing(1)}>
+                <Typography variant="h4" component="h1">
+                  {data.name}
+                </Typography>
+                <Typography paragraph margin={0}>
+                  {data.description}
+                </Typography>
+                <Typography paragraph margin={0}>
+                  {'$' + data.price}
+                </Typography>
+                <Box display="flex" alignItems="center" gap="1rem">
+                  <Rating value={data.rating} precision={0.5} readOnly />
                   <Typography>
-                    {data?.reviews_amount} {t('reviews:of-reviews')}
+                    {data.reviews_amount} {t('reviews:of-reviews')}
                   </Typography>
-                ) : (
-                  <Skeleton width="25%" />
-                )}
-              </Box>
-              <Box display="flex">
-                <NumericStepper size="large" value={amount} min={1} onChange={onChangeAmount} />
-              </Box>
-              <Box display="flex" marginTop={theme => theme.spacing(1)}>
-                <Button
-                  disabled={!ableToAddToCart}
-                  variant="contained"
-                  onClick={onAddToCart}
-                  loading={addToCartMutation.isLoading}
-                >
-                  {t('cart:Add-to-cart')}
-                </Button>
-              </Box>
-            </Stack>
-          </Box>
-        </Stack>
+                </Box>
+                <Box display="flex">
+                  <NumericStepper size="large" value={amount} min={1} onChange={onChangeAmount} />
+                </Box>
+                <Box display="flex" marginTop={theme => theme.spacing(1)}>
+                  <Button
+                    disabled={!ableToAddToCart}
+                    variant="contained"
+                    onClick={onAddToCart}
+                    loading={addToCartMutation.isLoading}
+                  >
+                    {t('cart:Add-to-cart')}
+                  </Button>
+                </Box>
+              </Stack>
+            </Box>
+          </Stack>
+        ) : (
+          <AccessoryInfoSkeleton />
+        )}
 
         <Container maxWidth="md">
           <Stack direction="column" gap="1rem">
@@ -276,6 +258,54 @@ const IdPage = () => {
         </Alert>
       </Snackbar>
     </Container>
+  );
+};
+
+const AccessoryInfoSkeleton = () => {
+  const { t } = useTranslation(['cart', 'review']);
+
+  return (
+    <Stack
+      display="flex"
+      direction="row"
+      gap={theme => theme.spacing(5)}
+      data-testid="accessory-id-info-skeleton"
+    >
+      <Box flex={3}>
+        <Skeleton variant="rectangular" width="100%" sx={{ minHeight: '500px' }} />
+      </Box>
+      <Box flex={4}>
+        <Stack gap={theme => theme.spacing(1)}>
+          <Typography variant="h4" component="h1">
+            <Skeleton width="100%" />
+          </Typography>
+          <Typography paragraph margin={0}>
+            <React.Fragment>
+              <Skeleton width="100%" />
+              <Skeleton width="100%" />
+              <Skeleton width="100%" />
+              <Skeleton width="100%" />
+              <Skeleton width="100%" />
+            </React.Fragment>
+          </Typography>
+          <Typography paragraph margin={0}>
+            <Skeleton width={40} />
+          </Typography>
+          <Box display="flex" alignItems="center" gap="1rem">
+            <Skeleton width="25%" />
+            <Skeleton width="25%" />
+          </Box>
+          <Box display="flex">
+            <NumericStepper size="large" value={1} min={1} onChange={() => {}} />
+          </Box>
+          <Box display="flex" marginTop={theme => theme.spacing(1)}>
+            <Button disabled variant="contained">
+              {t('cart:Add-to-cart')}
+            </Button>
+          </Box>
+        </Stack>
+      </Box>
+    </Stack>
   );
 };
 
