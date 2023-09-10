@@ -3,8 +3,6 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
-import App from 'app';
-
 import store from 'store';
 
 import { getErrorMessages } from 'utils/get-error-messages.util';
