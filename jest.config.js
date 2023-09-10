@@ -32,6 +32,7 @@ module.exports = {
     'schemas',
     'api',
     'store',
+    'react-i18next.d.ts',
   ],
   coverageDirectory: '../coverage',
   testEnvironment: 'jsdom',
