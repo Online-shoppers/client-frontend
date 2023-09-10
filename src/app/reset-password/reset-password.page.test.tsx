@@ -29,6 +29,10 @@ jest.mock('./api/get-reset-token.api', () => ({
   getResetToken: jest.fn(() => 'some-reset-token'),
 }));
 
+jest.mock('utils/get-error-messages.util', () => ({
+  getErrorMessages: jest.fn(() => ['some-error']),
+}));
+
 describe('Reset password page', () => {
   let queryClient: QueryClient;
 
@@ -164,17 +168,27 @@ describe('Reset password page', () => {
       expect(emailInput).toHaveValue('some@email.com');
     });
 
-    const err = new Error('Some error');
-    jest.mock('./api/get-reset-token.api', () => ({
-      getResetToken: jest.fn().mockRejectedValue(err),
-    }));
-
+    const err = Error('Some error');
     try {
+      (getResetToken as jest.Mock).mockRejectedValue(err);
       fireEvent.submit(form);
+      expect(await waitFor(() => getResetToken('email'))).toBe('some-reset-token');
+      console.log('form submit');
     } catch (e) {
       expect(e).toBe(err);
-      expect(getByText('errors:Something-went-wrong')).toBeInTheDocument();
+      expect(getByText('some-error')).toBeInTheDocument();
+      expect(getErrorMessages(e)).toStrictEqual(['some-error']);
+    }
+
+    try {
+      (getResetToken as jest.Mock).mockRejectedValueOnce(err);
+      (getErrorMessages as jest.Mock).mockReturnValue(null);
+      fireEvent.submit(form);
+      expect(await waitFor(() => getResetToken('email'))).toBe('some-reset-token');
+    } catch (e) {
+      expect(e).toBeInstanceOf(Error);
       expect(getErrorMessages(e)).toStrictEqual(null);
+      expect(getByText('errors:Something-went-wrong')).toBeInTheDocument();
     }
   });
 });

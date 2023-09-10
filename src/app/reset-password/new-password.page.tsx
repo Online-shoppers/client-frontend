@@ -91,7 +91,12 @@ const NewPassword = () => {
   return (
     <Container maxWidth="xs" className={classes.parent}>
       <Box className={classes.box} gap={3}>
-        <Box component="form" className={classes.form} onSubmit={handleChangePassword}>
+        <Box
+          component="form"
+          className={classes.form}
+          onSubmit={handleChangePassword}
+          data-testid="form"
+        >
           <Controller
             name="password"
             render={({ field, fieldState: { error } }) => (
@@ -104,6 +109,9 @@ const NewPassword = () => {
                   fullWidth
                   label={t('Password')}
                   type="password"
+                  inputProps={{
+                    'data-testid': 'password-input',
+                  }}
                 />
                 {error ? <FormHelperText error={!!error}>{error.message}</FormHelperText> : null}
               </FormControl>
@@ -120,9 +128,11 @@ const NewPassword = () => {
                   margin="dense"
                   required
                   fullWidth
-                  name="password"
                   label={t('Confirm-password')}
                   type="password"
+                  inputProps={{
+                    'data-testid': 'password-confirm-input',
+                  }}
                 />
                 {error ? <FormHelperText error={!!error}>{error.message}</FormHelperText> : null}
               </FormControl>
